@@ -1,0 +1,26 @@
+﻿.buttons {
+  display: flex;
+  justify-content: space-between;
+}
+.buttons button {
+  margin: 0 2rem;
+  font-size: 24px;
+  background: none;
+  border: 2px solid #00add4;
+  border-radius: 10px;
+}
+.buttons button:hover {
+  background-color: #00add4;
+}
+
+.front-side,
+.back-side {
+  height: 100%;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  backface-visibility: hidden;
+  transition: transform 0.8s linear;
+}

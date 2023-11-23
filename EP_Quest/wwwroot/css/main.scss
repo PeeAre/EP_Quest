@@ -1,0 +1,163 @@
+﻿html {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    margin: auto;
+}
+
+.main {
+    width: 100%;
+    height: 100%;
+    color: white;
+    font-family: "Anime Ace v3";
+    font-weight: 500;
+    font-size: 24px;
+    background: linear-gradient(#1d709c, #000b39);
+}
+
+$sapling: #f9ecd0;
+$space: #2d363f;
+$cream: #fff9e6;
+
+.particle-container {
+    background-color: $sapling;
+    position: relative;
+    height: 100vh;
+}
+
+.circle {
+    border-radius: 50%;
+    position: absolute;
+    z-index: 12;
+}
+
+@for $i from 1 through 31 {
+    @-webkit-keyframes particle-animation-#{$i} {
+        0% {
+            -webkit-transform: translate3d((random(100) * 1vw), (random(100) * 1vh), (random(400) * 1px)) rotate(random(90) + deg);
+            transform: translate3d((random(100) * 1vw), (random(100) * 1vh), (random(400) * 1px)) rotate(random(90) + deg);
+        }
+
+        100% {
+            -webkit-transform: translate3d((random(100) * 1vw), (random(100) * 1vh), (random(400) * 1px)) rotate(random(180) + deg);
+            transform: translate3d((random(100) * 1vw), (random(100) * 1vh), (random(400) * 1px)) rotate(random(180) + deg);
+        }
+    }
+
+    @keyframes particle-animation-#{$i} {
+        0% {
+            -webkit-transform: translate3d((random(100) * 1vw), (random(100) * 1vh), (random(100) * 1px)) rotate(random(90) + deg);
+            transform: translate3d((random(100) * 1vw), (random(100) * 1vh), (random(400) * 1px)) rotate(random(90) + deg);
+        }
+
+        100% {
+            -webkit-transform: translate3d((random(100) * 1vw), (random(100) * 1vh), (random(400) * 1px)) rotate(random(180) + deg);
+            transform: translate3d((random(100) * 1vw), (random(100) * 1vh), (random(400) * 1px)) rotate(random(180) + deg);
+        }
+    }
+
+    //fade in and out
+    @-webkit-keyframes fade-frames {
+        0% {
+            opacity: 0;
+        }
+
+        25% {
+            opacity: .5;
+        }
+
+        100% {
+            opacity: 1;
+        }
+
+        75% {
+            opacity: .5;
+        }
+
+        100% {
+            opacity: 0;
+        }
+    }
+
+    @keyframes fade-frames {
+        0% {
+            opacity: 0;
+        }
+
+        25% {
+            opacity: .5;
+        }
+
+        100% {
+            opacity: 1;
+        }
+
+        75% {
+            opacity: .5;
+        }
+
+        100% {
+            opacity: 0;
+        }
+    }
+
+    //apply keyframes to children of .particles - the circles
+    //and make them a random size, color, and delay
+    .particles span:nth-child(#{$i}) {
+        -webkit-animation: particle-animation-#{$i} 10s ease-in infinite, fade-frames 10s ease-in-out infinite;
+        animation: particle-animation-#{$i} 10s ease-in infinite, fade-frames 10s ease-in-out infinite;
+        $size: random(10) + 5 + px;
+        height: $size;
+        width: $size;
+        $color: random(255);
+        //this will make them all a random shade of greyish
+        background-color: rgb($color, $color, $color);
+        -webkit-animation-delay: -$i + s;
+        animation-delay: -$i + s;
+        -webkit-transform: translate3d((random(90) * 1vw), (random(90) * 1vh), (random(100) * 1px));
+        transform: translate3d((random(90) * 1vw), (random(90) * 1vh), (random(100) * 1px));
+    }
+}
+
+/********* End particle Animation Styles ***********/
+
+
+.greeting-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 8rem;
+}
+
+.quest-container {
+    padding: 1rem;
+    height: calc(100vh - 2rem);
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+.character-container {
+    background: rgba(1, 15, 61, 0.2);
+    border: 2px solid #00add4;
+    border-radius: 10px;
+    flex-grow: 1;
+}
+
+.note-container {
+    position: relative;
+    background: rgba(1, 15, 61, 0.2);
+    border: 2px solid #00add4;
+    overflow: hidden;
+    border-radius: 10px;
+    flex-grow: 1.5;
+}
+
+@font-face {
+    font-family: "Anime Ace v3";
+    src: url('../fonts/anime_ace_v3.ttf') format('truetype');
+}

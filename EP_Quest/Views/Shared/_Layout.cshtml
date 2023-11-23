@@ -1,0 +1,20 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <link href="css/main.css" rel="stylesheet">
+    <link href="~/EP_Quest.styles.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="main">
+        <div class="particles">
+            @for (var i = 0; i < 16; i++)
+            {
+                <span class="circle"></span>
+            }
+        </div>
+        @RenderBody()
+    </div>
+    <script src="_framework/blazor.server.js"></script>
+</body>
+</html>
