@@ -8,5 +8,7 @@
             this.context = context;
         }
         public IQueryable<CompletionTime> CompletionTimes => context.CompletionTimes;
+        public IQueryable<Instruction> Instructions => context.Instructions;
+        public IQueryable<Step> Steps => context.Steps;
     }
 }

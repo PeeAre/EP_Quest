@@ -20,6 +20,7 @@ namespace EP_Quest
             {
                 options.UseSqlServer(Configuration["ConnectionStrings:QuestConnection"]);
             });
+            services.AddScoped<IQuestRepository, QuestRepository>();
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -38,6 +39,7 @@ namespace EP_Quest
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapBlazorHub();
                 endpoints.MapDefaultControllerRoute();
             });
         }

@@ -1,13 +1,126 @@
-﻿<div class="front-side">
-    <span>
-        "Гей, хлопці, не вспію — на ґанку ваша файна їжа знищується бурундучком"
-    </span>
-    <div class="buttons">
-        <button id="back-button">Back</button>
-        <button id="next-button">Next</button>
+﻿@using EP_Quest.Models
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.EntityFrameworkCore
+
+<div class="@_instructionRotation">
+    <div class="front-side">
+        <span class="instruction-container @_currentNoteOpacity">
+            @_instruction
+        </span>
+        <div class="buttons-container">
+            <button id="back-button" class="nav-button" style="visibility: @_backButtonVisibility" @onclick="ToPreviousPage">Back</button>
+            <button id="next-button" class="nav-button" @onclick="ToNextPage">@_nextButtonText</button>
+        </div>
+    </div>
+    <div class="back-side">
+        <div class="cards">
+            @foreach (var step in Enum.GetValues<StepNumbers>())
+            {
+                var stepNumber = step.ToString().ToUpper();
+                <div class="card" @onmouseover="() => ShowStepDescription((int)step)">@stepNumber</div>
+            }
+        </div>
+        <div class="description-section">
+            <span class="description-text">
+                @_stepDescription
+            </span>
+            <div class="buttons-container">
+                <div class="brush-back-button" @onclick="ToBeginInstruction"></div>
+                <button id="result-phrase-button" class="nav-button">Result phrase</button>
+            </div>
+        </div>
     </div>
 </div>
 
 @code {
+    enum StepNumbers
+    {
+        One,
+        Two,
+        Three,
+        Four,
+        Five,
+        Six,
+        Seven,
+        Eight
+    }
 
+    [Inject]
+    public IQuestRepository Repository { get; set; }
+    private Instruction[] _instructions;
+    private int _instructionIndex;
+    private string _instruction = string.Empty;
+    private List<Step> _steps;
+    private string _stepDescription = string.Empty;
+    private string _currentNoteOpacity = "transparent-block";
+    private string _backButtonVisibility = "hidden";
+    private string _nextButtonText = "Next";
+    private bool _canStartQuest;
+    private string _instructionRotation = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        _instructions = await Repository.Instructions.ToArrayAsync();
+        _steps = await Repository.Steps.ToListAsync();
+        _currentNoteOpacity = "visible-block";
+
+        if (_instructions.Length > 0)
+        {
+            _instruction = _instructions[_instructionIndex].Text;
+        }
+    }
+    private async Task ToPreviousPage()
+    {
+        _instructionIndex = _instructionIndex > 0 ? _instructionIndex - 1 : _instructionIndex;
+        _instruction = _instructions[_instructionIndex].Text;
+        _currentNoteOpacity = "transparent-block";
+        _nextButtonText = "Next";
+        _canStartQuest = false;
+
+        if (_instructionIndex == 0)
+            _backButtonVisibility = "hidden";
+
+        await Task.Delay(200);
+        _currentNoteOpacity = "visible-block";
+    }
+    private async Task ToNextPage()
+    {
+        _currentNoteOpacity = "transparent-block";
+
+        if (_canStartQuest)
+        {
+            _instructionRotation = "rotate";
+            return;
+        }
+
+        _instructionIndex = _instructionIndex < _instructions.Length - 1 ? _instructionIndex + 1 : _instructionIndex;
+        _instruction = _instructions[_instructionIndex].Text;
+        _backButtonVisibility = "visible";
+
+        if (_instructionIndex == _instructions.Length - 1)
+        {
+            _nextButtonText = "Let's start the quest";
+            _canStartQuest = true;
+        }
+
+        await Task.Delay(200);
+        _currentNoteOpacity = "visible-block";
+    }
+    private async Task ToBeginInstruction()
+    {
+        _instructionIndex = 0;
+        _instruction = _instructions[_instructionIndex].Text;
+        _instructionRotation = "";
+        _nextButtonText = "Next";
+        _canStartQuest = false;
+        _backButtonVisibility = "hidden";
+        await Task.Delay(200);
+        _currentNoteOpacity = "visible-block";
+    }
+    private void ShowStepDescription(int index)
+    {
+        var stepId = index + 1;
+        var step = _steps.FirstOrDefault(step => step.Id == stepId);
+        _stepDescription = step != null ? step.Description : string.Empty;
+    }
 }
