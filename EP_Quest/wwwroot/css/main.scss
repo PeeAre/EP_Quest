@@ -195,7 +195,16 @@ $cream: #fff9e6;
     }
 }
 
+.deutch-font {
+    font-family: "GermaniaOne-regular";
+}
+
 @font-face {
     font-family: "Anime Ace v3";
     src: url('../fonts/anime_ace_v3.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: "GermaniaOne-regular";
+    src: url('../fonts/GermaniaOne-Regular.ttf') format('truetype');
 }
