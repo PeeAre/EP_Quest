@@ -11,14 +11,16 @@ namespace EP_Quest
         {
             Configuration = config;
         }
-        public void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services, IWebHostEnvironment env)
         {
+            var connectionString = env.IsDevelopment() ? "ConnectionStrings:MSSQL_Connection" :
+                "ConnectionStrings:PostgreSQL_Connection";
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages().AddRazorRuntimeCompilation();
             services.AddServerSideBlazor();
             services.AddDbContext<QuestDbContext>(options =>
             {
-                options.UseSqlServer(Configuration["ConnectionStrings:QuestConnection"]);
+                options.UseNpgsql(Configuration[connectionString]);
             });
             services.AddScoped<IQuestRepository, QuestRepository>();
         }
