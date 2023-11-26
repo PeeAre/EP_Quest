@@ -1,5 +1,4 @@
 ﻿@using EP_Quest.Models
-@using Microsoft.AspNetCore.Mvc.Localization
 @using Microsoft.EntityFrameworkCore
 
 <div class="@_instructionRotation">
@@ -14,11 +13,12 @@
     </div>
     <div class="back-side">
         <div class="cards">
-            @for (var i = 0; i < Enum.GetValues<StepNumbers>().Length; i++)
+            @for (var i = 0; i < _steps.Count; i++)
             {
-                var step = Enum.GetValues<StepNumbers>()[i];
-                var stepNumber = step.ToString().ToUpper();
-                <div class="card @_cards[i]" @onmouseover="() => HoverCard((int)step)" @onmouseout="() => HoverCard(-1)" @onclick="() => SelectStep((int)step)">@stepNumber</div>
+                var step = _steps[i];
+                var stepNumber = step.Name;
+                var lockedClass = step.IsLocked ? "lock" : "unlock";
+                <div class="card @_cards[i] @lockedClass" @onmouseover="() => HoverCard(step.Number - 1)" @onmouseout="() => HoverCard(-1)" @onclick="() => SelectStep(step.Number - 1)">@stepNumber</div>
             }
         </div>
         <div class="description-section">
@@ -28,24 +28,21 @@
             <div class="buttons-container">
                 <div class="brush-back-button" @onclick="ToBeginInstruction"></div>
                 <button id="result-phrase-button" class="nav-button">Result phrase</button>
+                <div class="brush-back-button" @onclick="ToSelectedStep"></div>
+            </div>
+        </div>
+    </div>
+    <div class="third-side">
+        <div class="instruction-container">
+            <span>Third side</span>
+            <div class="buttons-container">
+                <button class="nav-button" @onclick="ToDashboard">Dashboard</button>
             </div>
         </div>
     </div>
 </div>
 
 @code {
-    enum StepNumbers
-    {
-        One,
-        Two,
-        Three,
-        Four,
-        Five,
-        Six,
-        Seven,
-        Eight
-    }
-
     [Inject]
     public IQuestRepository Repository { get; set; }
     private Instruction[] _instructions;
@@ -63,21 +60,21 @@
     private string _selectedCardDescription = "";
     private string _instructionRotation = "";
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        _instructions = await Repository.Instructions.OrderBy(instruction => instruction.Id).ToArrayAsync();
-        _steps = await Repository.Steps.OrderBy(instruction => instruction.Id).ToListAsync();
+        _instructions = Repository.Instructions.OrderBy(instruction => instruction.Id).ToArray();
+        _steps = Repository.Steps.OrderBy(step => step.Id).ToList();
         _currentNoteOpacity = "visible-block";
 
         if (_instructions.Length > 0)
         {
-            _instruction = _instructions[_instructionIndex].Text;
+            _instruction = _instructions[_instructionIndex].Content;
         }
     }
     private async Task ToPreviousPage()
     {
         _instructionIndex = _instructionIndex > 0 ? _instructionIndex - 1 : _instructionIndex;
-        _instruction = _instructions[_instructionIndex].Text;
+        _instruction = _instructions[_instructionIndex].Content;
         _currentNoteOpacity = "transparent-block";
         _nextButtonText = "Next";
         _canStartQuest = false;
@@ -99,7 +96,7 @@
         }
 
         _instructionIndex = _instructionIndex < _instructions.Length - 1 ? _instructionIndex + 1 : _instructionIndex;
-        _instruction = _instructions[_instructionIndex].Text;
+        _instruction = _instructions[_instructionIndex].Content;
         _backButtonVisibility = "visible";
 
         if (_instructionIndex == _instructions.Length - 1)
@@ -114,7 +111,7 @@
     private async Task ToBeginInstruction()
     {
         _instructionIndex = 0;
-        _instruction = _instructions[_instructionIndex].Text;
+        _instruction = _instructions[_instructionIndex].Content;
         _instructionRotation = "";
         _nextButtonText = "Next";
         _canStartQuest = false;
@@ -122,18 +119,30 @@
         await Task.Delay(200);
         _currentNoteOpacity = "visible-block";
     }
+    private void ToSelectedStep()
+    {
+        _instructionRotation = "qwe";
+        _backButtonVisibility = "hidden";
+
+    }
+    private void ToDashboard()
+    {
+        _instructionRotation = "rotate";
+    }
     private void HoverCard(int index)
     {
         if (index == -1)
         {
-            _stepDescription = _focusedCard != -1 ? _steps.FirstOrDefault(step => step.Id == _focusedCard + 1)
-                .Description : string.Empty;
+            _stepDescription = _focusedCard == -1 ? string.Empty :
+                _steps.FirstOrDefault(step => step.Number == _focusedCard + 1).IsLocked ?
+                    "***" :
+                    _steps.FirstOrDefault(step => step.Id == _focusedCard + 1).Description;
             return;
         }
 
         var stepId = index + 1;
         Step? step = _steps.FirstOrDefault(step => step.Id == stepId);
-        _stepDescription = step != null ? step.Description : "***";
+        _stepDescription = !step.IsLocked ? step.Description : "***";
     }
     private void SelectStep(int index)
     {

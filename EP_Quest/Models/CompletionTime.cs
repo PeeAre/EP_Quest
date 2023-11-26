@@ -1,9 +1,15 @@
-﻿namespace EP_Quest.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace EP_Quest.Models
 {
     public class CompletionTime
     {
+        [Key]
+        [ForeignKey("Step")]
         public int Id { get; set; }
-        public DateTime StartTime { get; set; } = DateTime.Now.ToUniversalTime();
-        public DateTime EndTime { get; set; }
+        public DateTime Start { get; set; } = DateTime.Now.ToUniversalTime();
+        [Required]
+        public DateTime Duration { get; set; }
     }
 }

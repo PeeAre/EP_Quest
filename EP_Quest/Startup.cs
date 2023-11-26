@@ -1,4 +1,5 @@
 ﻿using EP_Quest.Models;
+using EP_Quest.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace EP_Quest
@@ -22,7 +23,7 @@ namespace EP_Quest
             });
             services.AddScoped<IQuestRepository, QuestRepository>();
         }
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, QuestDbContext dbContext)
         {
             if (env.IsDevelopment())
             {
@@ -42,6 +43,7 @@ namespace EP_Quest
                 endpoints.MapBlazorHub();
                 endpoints.MapDefaultControllerRoute();
             });
+            DatabaseService.EnsurePopulated(dbContext);
         }
     }
 }

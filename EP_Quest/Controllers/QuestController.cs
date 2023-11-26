@@ -15,12 +15,6 @@ namespace EP_Quest.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            if (_dbContext.Database.GetPendingMigrations().Any())
-            {
-                _dbContext.Database.Migrate();
-            }
-
-            _dbContext.Database.EnsureCreated();
             ViewBag.Title = "Quest";
 
             return View();

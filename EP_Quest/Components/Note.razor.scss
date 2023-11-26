@@ -7,7 +7,8 @@
 }
 
 .front-side,
-.back-side {
+.back-side,
+.third-side {
     width: 100%;
     height: 100%;
     position: absolute;
@@ -33,12 +34,29 @@
     transform: perspective(1800px) rotateY(180deg);
 }
 
+.third-side {
+    visibility: hidden;
+    transform: perspective(1800px) rotateY(0);
+}
+
 .rotate > .front-side {
     transform: perspective(1800px) rotateY(-180deg);
 }
 
 .rotate > .back-side {
     transform: perspective(1800px) rotateY(0deg);
+}
+
+.rotate > .third-side {
+    transform: perspective(1800px) rotateY(-180deg);
+}
+
+.qwe > .front-side {
+    visibility: hidden;
+}
+
+.qwe > .third-side {
+    visibility: visible;
 }
 
 .transparent-block {
@@ -75,20 +93,38 @@
     cursor: pointer;
 }
 
-.card::before {
-    z-index: -1;
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100px;
-    height: 100px;
-    background-image: url('images/lock.png');
-    background-size: 100px 100px;
+.lock {
+    &:before {
+        z-index: -1;
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 120px;
+        height: 120px;
+        background-image: url('images/lock.svg');
+        background-size: 120px 120px;
+    }
+}
+
+.unlock {
+    &:before {
+        z-index: -1;
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 120px;
+        height: 120px;
+        background-image: url('images/unlock.svg');
+        background-size: 120px 120px;
+    }
 }
 
 .selected-card {
+    box-sizing: border-box;
     border: 4px solid #00add4;
 }
 
@@ -118,26 +154,28 @@
 
     > .buttons-container {
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
         width: 100%;
 
-        .brush-back-button:before {
-            position: absolute;
-            bottom: 2rem;
-            left: 2.5rem;
-            z-index: 10;
-            content: "";
+        .brush-back-button {
             width: 4.5rem;
             height: 3.125rem;
-            background-image: url('images/brush-arrow.svg');
-            -webkit-transform: scaleX(-1);
-            transform: scaleX(-1);
-            background-size: 4.5rem 3.125rem;
-        }
 
-        .brush-back-button:hover:before {
-            cursor: pointer;
-            left: 2.125rem;
+            &:before {
+                z-index: 10;
+                content: "";
+                position: absolute;
+                background-image: url('images/brush-arrow.svg');
+                -webkit-transform: scaleX(-1);
+                transform: scaleX(-1);
+                background-size: 4.5rem 3.125rem;
+                width: 4.5rem;
+                height: 3.125rem;
+            }
+
+            &:hover {
+                cursor: pointer;
+            }
         }
     }
 }
