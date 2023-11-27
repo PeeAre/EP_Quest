@@ -1,0 +1,112 @@
+﻿.cards {
+    margin: 1.5rem 0.5rem;
+    padding: 0 1rem;
+    overflow: auto;
+    display: grid;
+    gap: 1rem;
+
+    .card {
+        background: rgba(1, 15, 61, 0.2);
+        color: white;
+        height: 8rem;
+        position: relative;
+        border-radius: 5px;
+
+        &:hover {
+            box-sizing: border-box;
+            border: 4px solid #00add4;
+            cursor: pointer;
+        }
+    }
+
+    @media (min-width: 600px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (min-width: 900px) {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+
+.lock {
+    &:before {
+        z-index: -1;
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 120px;
+        height: 120px;
+        background-image: url('images/lock.svg');
+        background-size: 120px 120px;
+    }
+}
+
+.unlock {
+    &:before {
+        z-index: -1;
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 120px;
+        height: 120px;
+        background-image: url('images/unlock.svg');
+        background-size: 120px 120px;
+    }
+}
+
+.selected-step {
+    box-sizing: border-box;
+    border: 4px solid #00add4;
+}
+
+.description-section {
+    min-height: 12rem;
+    margin: 1rem 1rem;
+    padding: 1rem 0;
+    background: rgba(1, 15, 61, 0.2);
+    border-radius: 5px;
+    font-size: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    .description-text {
+        display: block;
+        max-height: 7.5rem;
+        margin: 0 1rem 0 0;
+        padding: 0 1rem;
+        overflow: auto;
+    }
+
+    .buttons-container {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        /*.brush-back-button {
+            width: 4.5rem;
+            height: 3.125rem;
+
+            &:before {
+                z-index: 10;
+                content: "";
+                position: absolute;
+                background-image: url('images/brush-arrow.svg');
+                -webkit-transform: scaleX(-1);
+                transform: scaleX(-1);
+                background-size: 4.5rem 3.125rem;
+                width: 4.5rem;
+                height: 3.125rem;
+            }
+
+            &:hover {
+                cursor: pointer;
+            }
+        }*/
+    }
+}

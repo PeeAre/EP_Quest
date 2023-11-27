@@ -53,6 +53,9 @@ namespace EP_Quest.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("Number")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.ToTable("Instructions");

@@ -1,0 +1,49 @@
+﻿@using EP_Quest.Models
+
+<div class="@_instructionRotation">
+    <div class="instruction-side">
+        <Instruction ToDashboard="ToDashboard"></Instruction>
+    </div>
+    <div class="dashboard-side">
+        <Dashboard ToInstructions="ToInstructions" ToSelectedStep="ToSelectedStep"></Dashboard>
+
+    </div>
+    <div class="third-side">
+        <div class="instruction-container">
+            <span>Third side</span>
+            <div class="buttons-container">
+                <button class="nav-button" @onclick="ToDashboard">Dashboard</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Inject]
+    public IQuestRepository Repository { get; set; }
+    private Models.Instruction[] _instructions;
+    private int _instructionIndex;
+
+
+    private bool _canStartQuest;
+
+    private string _instructionRotation = "";
+
+    protected override void OnInitialized()
+    {
+        _instructions = Repository.Instructions.OrderBy(instruction => instruction.Id).ToArray();
+    }
+    private async Task ToInstructions()
+    {
+        _instructionRotation = "qwe";
+    }
+    private async Task ToSelectedStep()
+    {
+        _instructionRotation = "qwe";
+    }
+    private void ToDashboard()
+    {
+        _instructionRotation = "rotate";
+    }
+
+}

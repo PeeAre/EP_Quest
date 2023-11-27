@@ -1,0 +1,100 @@
+﻿@using EP_Quest.Models
+@using Microsoft.EntityFrameworkCore
+@inject IQuestRepository Repository
+
+
+<div class="instruction-container @_instructionOpacity">
+    @((MarkupString)_instructions.Content)
+</div>
+<div class="buttons-container">
+    <button id="back-button" class="nav-button" style="visibility: @_backButtonVisibility" @onclick="ToPreviousPage">@BackButtonText</button>
+    <button id="next-button" class="nav-button" style="visibility: @_nextButtonVisibility" @onclick="ToNextPage">@_nextButtonText</button>
+</div>
+
+
+@code {
+    struct Instructions
+    {
+        public string Content;
+
+        private Models.Instruction[] _instructions;
+        private int _index = 0;
+
+
+        public Instructions(Models.Instruction[] instructions)
+        {
+            _instructions = instructions;
+            Content = _instructions[_index].Content;
+        }
+        public void Next()
+        {
+            if (_index + 1 == _instructions.Length)
+                return;
+
+            Content = _instructions[++_index].Content;
+        }
+        public void Previous()
+        {
+            if (_index == 0)
+                return;
+
+            Content = _instructions[--_index].Content;
+        }
+        public bool IsFirst() => _index == 0;
+        public bool IsLast() => _index == _instructions.Length - 1;
+    }
+
+    [Parameter]
+    public EventCallback ToDashboard { get; set; }
+
+    private Instructions _instructions;
+    private string _instructionOpacity = "fade-in";
+    private string _backButtonVisibility = "hidden";
+    private string _nextButtonVisibility = "visible";
+    private const string BackButtonText = "Back";
+    private string _nextButtonText = "Next";
+    private bool _canStartQuest = false;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        var instructions = await Repository.Instructions.OrderBy(x => x.Number).ToArrayAsync();
+        _instructions = new Instructions(instructions);
+    }
+    private async Task ToPreviousPage()
+    {
+        _instructionOpacity = "transparent";
+        _instructions.Previous();
+        _nextButtonText = "Next";
+        _canStartQuest = false;
+
+        if (_instructions.IsFirst())
+            _backButtonVisibility = "hidden";
+
+        await Task.Delay(10);
+        _instructionOpacity = "fade-in";
+    }
+    private async Task ToNextPage()
+    {
+        _instructionOpacity = "transparent";
+
+        if (_canStartQuest)
+        {
+            _instructionOpacity = "";
+            await ToDashboard.InvokeAsync();
+            return;
+        }
+
+        _instructions.Next();
+        _backButtonVisibility = "visible";
+
+        if (_instructions.IsLast())
+        {
+            _nextButtonText = "Let's start the quest";
+            _canStartQuest = true;
+        }
+
+        await Task.Delay(10);
+        _instructionOpacity = "fade-in";
+    }
+}

@@ -11,7 +11,6 @@ namespace EP_Quest.Models
         public QuestDbContext(DbContextOptions<QuestDbContext> options)
             : base(options)
         {
-
         }
     }
 }

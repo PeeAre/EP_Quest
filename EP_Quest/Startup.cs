@@ -20,8 +20,8 @@ namespace EP_Quest
             services.AddDbContext<QuestDbContext>(options =>
             {
                 options.UseNpgsql(Configuration["ConnectionStrings:PostgreSQL_Connection"]);
-            });
-            services.AddScoped<IQuestRepository, QuestRepository>();
+            }, ServiceLifetime.Transient);
+            services.AddTransient<IQuestRepository, QuestRepository>();
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, QuestDbContext dbContext)
         {

@@ -1,0 +1,91 @@
+﻿@using EP_Quest.Models
+@using Microsoft.EntityFrameworkCore
+@inject IQuestRepository Repository
+
+<div class="cards">
+    @foreach (var step in _steps)
+    {
+        <div class="card @step.LockIdentifier @step.Selection"
+             @onmouseover="() => HoverCard(true, step)"
+             @onmouseout="() => HoverCard(false)"
+             @onclick="() => SelectCard(step.GetNumber())">
+        </div>
+    }
+</div>
+<div class="description-section">
+    <span class="description-text">
+        @_stepDescription
+    </span>
+    <div class="buttons-container">
+        <div class="nav-button" @onclick="ToInstructions">Instructions</div>
+        <div class="nav-button" @onclick="ToSelectedStep">Play</div>
+    </div>
+</div>
+
+@code {
+    struct Step
+    {
+        public string LockIdentifier;
+        public string Selection = string.Empty;
+
+        private Models.Step _step;
+
+
+        public Step(Models.Step step)
+        {
+            _step = step;
+            LockIdentifier = _step.IsLocked ? "lock" : "unlock";
+        }
+        public Step(Models.Step step, string selection)
+        {
+            _step = step;
+            LockIdentifier = _step.IsLocked ? "lock" : "unlock";
+            Selection = selection;
+        }
+        public bool IsLocked() => _step.IsLocked;
+        public Models.Step Get() => _step;
+        public int GetNumber() => _step.Number;
+        public string GetDescription() => _step.Description;
+    }
+
+    [Parameter]
+    public EventCallback ToInstructions { get; set; }
+    [Parameter]
+    public EventCallback ToSelectedStep { get; set; }
+
+    private List<Step> _steps;
+    private string _stepDescription = string.Empty;
+    private Step _selectedStep = default;
+
+
+    protected override void OnInitialized()
+    {
+        _steps = Repository.Steps.Select(x => new Step(x)).ToList();
+    }
+    private void HoverCard(bool isOver, Step step = default)
+    {
+        if (isOver)
+        {
+            _stepDescription = step.IsLocked() ? "***" : step.GetDescription();
+            return;
+        }
+
+        for (var i = 0; i < _steps.Count; i++)
+            if (_steps[i].Selection != string.Empty)
+                _stepDescription = _steps[i].IsLocked() ? "***" : _steps[i].GetDescription();
+    }
+    private void SelectCard(int stepNumber)
+    {
+        for (int i = 0; i < _steps.Count; i++)
+        {
+            if (_steps[i].Selection != string.Empty)
+            {
+                _steps[i] = new Step(_steps[i].Get(), string.Empty);
+                continue;
+            }
+
+            if (_steps[i].GetNumber() == stepNumber)
+                _steps[i] = new Step(_steps[i].Get(), "selected-step");
+        }
+    }
+}

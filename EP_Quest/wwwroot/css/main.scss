@@ -20,6 +20,24 @@ body {
     background: linear-gradient(#1d709c, #000b39);
 }
 
+.transparent{
+    opacity: 0;
+}
+
+.fade-in {
+    animation: fade-in 2s;
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
 /* width */
 ::-webkit-scrollbar {
     width: 10px;
