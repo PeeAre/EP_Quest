@@ -1,6 +1,6 @@
 ﻿.instruction-side,
 .dashboard-side,
-.third-side {
+.quest-side {
     width: 100%;
     height: 100%;
     position: absolute;
@@ -12,41 +12,30 @@
     transition: transform .8s linear;
 }
 
-.instruction-side {
-    transform: perspective(1800px) rotateY(0);
+.main-side {
+    .instruction-side {
+        transform: perspective(1800px) rotateY(0);
+    }
+
+    .dashboard-side {
+        transform: perspective(1800px) rotateY(180deg);
+    }
+
+    .quest-side {
+        transform: perspective(1800px) rotateY(0);
+    }
 }
 
-.dashboard-side {
-    transform: perspective(1800px) rotateY(180deg);
+.back-side {
+    .instruction-side {
+        transform: perspective(1800px) rotateY(-180deg);
+    }
+
+    .dashboard-side {
+        transform: perspective(1800px) rotateY(0);
+    }
+
+    .quest-side {
+        transform: perspective(1800px) rotateY(-180deg);
+    }
 }
-
-.third-side {
-    visibility: hidden;
-    transform: perspective(1800px) rotateY(0);
-}
-
-.rotate > .instruction-side {
-    transform: perspective(1800px) rotateY(-180deg);
-}
-
-.rotate > .dashboard-side {
-    transform: perspective(1800px) rotateY(0deg);
-}
-
-.rotate > .third-side {
-    transform: perspective(1800px) rotateY(-180deg);
-}
-
-.qwe > .instruction-side {
-    visibility: hidden;
-}
-
-.qwe > .third-side {
-    visibility: visible;
-}
-
-/**************************************/
-
-
-
-

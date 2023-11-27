@@ -50,7 +50,7 @@
     private Instructions _instructions;
     private string _instructionOpacity = "fade-in";
     private string _backButtonVisibility = "hidden";
-    private string _nextButtonVisibility = "visible";
+    private string _nextButtonVisibility = string.Empty;
     private const string BackButtonText = "Back";
     private string _nextButtonText = "Next";
     private bool _canStartQuest = false;
@@ -80,13 +80,13 @@
 
         if (_canStartQuest)
         {
-            _instructionOpacity = "";
+            _instructionOpacity = string.Empty;
             await ToDashboard.InvokeAsync();
             return;
         }
 
         _instructions.Next();
-        _backButtonVisibility = "visible";
+        _backButtonVisibility = string.Empty;
 
         if (_instructions.IsLast())
         {

@@ -1,49 +1,55 @@
-﻿@using EP_Quest.Models
-
-<div class="@_instructionRotation">
-    <div class="instruction-side">
-        <Instruction ToDashboard="ToDashboard"></Instruction>
+﻿<div class="@_side">
+    <div class="instruction-side" style="visibility: @_instructionsVisibility">
+        <Instruction ToDashboard="FromInstructionsToDashboard"></Instruction>
     </div>
-    <div class="dashboard-side">
+    <div class="dashboard-side" style="visibility: @_dashboardVisibility">
         <Dashboard ToInstructions="ToInstructions" ToSelectedStep="ToSelectedStep"></Dashboard>
-
     </div>
-    <div class="third-side">
-        <div class="instruction-container">
-            <span>Third side</span>
+    <div class="quest-side" style="visibility: @_questVisibility">
+        <div style="padding: 2rem; display: flex; flex-direction: column; height: 100%; justify-content: space-between;">
+            <span>Quest side</span>
             <div class="buttons-container">
-                <button class="nav-button" @onclick="ToDashboard">Dashboard</button>
+                <button class="nav-button" @onclick="FromQuestToDashboard">To dashboard</button>
             </div>
         </div>
     </div>
 </div>
 
 @code {
-    [Inject]
-    public IQuestRepository Repository { get; set; }
-    private Models.Instruction[] _instructions;
-    private int _instructionIndex;
+    private string _side = "main-side";
+    private string _instructionsVisibility = "visible";
+    private string _dashboardVisibility = "visible";
+    private string _questVisibility = "hidden";
 
-
-    private bool _canStartQuest;
-
-    private string _instructionRotation = "";
-
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        _instructions = Repository.Instructions.OrderBy(instruction => instruction.Id).ToArray();
     }
-    private async Task ToInstructions()
+    private void ToInstructions()
     {
-        _instructionRotation = "qwe";
+        _instructionsVisibility = "visible";
+        _dashboardVisibility = "visible";
+        _questVisibility = "hidden";
+        _side = "main-side";
     }
-    private async Task ToSelectedStep()
+    private void FromInstructionsToDashboard()
     {
-        _instructionRotation = "qwe";
+        _instructionsVisibility = "visible";
+        _dashboardVisibility = "visible";
+        _questVisibility = "hidden";
+        _side = "back-side";
     }
-    private void ToDashboard()
+    private void FromQuestToDashboard()
     {
-        _instructionRotation = "rotate";
+        _instructionsVisibility = "hidden";
+        _dashboardVisibility = "visible";
+        _questVisibility = "visible";
+        _side = "back-side";
     }
-
+    private void ToSelectedStep()
+    {
+        _instructionsVisibility = "hidden";
+        _dashboardVisibility = "visible";
+        _questVisibility = "visible";
+        _side = "main-side";
+    }
 }

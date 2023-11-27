@@ -9,6 +9,7 @@
              @onmouseover="() => HoverCard(true, step)"
              @onmouseout="() => HoverCard(false)"
              @onclick="() => SelectCard(step.GetNumber())">
+            @step.GetName()
         </div>
     }
 </div>
@@ -18,7 +19,7 @@
     </span>
     <div class="buttons-container">
         <div class="nav-button" @onclick="ToInstructions">Instructions</div>
-        <div class="nav-button" @onclick="ToSelectedStep">Play</div>
+        <div class="nav-button" style="visibility: @_playButtonVisibility" @onclick="ToSelectedStep">Play</div>
     </div>
 </div>
 
@@ -44,6 +45,7 @@
         }
         public bool IsLocked() => _step.IsLocked;
         public Models.Step Get() => _step;
+        public string GetName() => _step.Name;
         public int GetNumber() => _step.Number;
         public string GetDescription() => _step.Description;
     }
@@ -56,6 +58,7 @@
     private List<Step> _steps;
     private string _stepDescription = string.Empty;
     private Step _selectedStep = default;
+    private string _playButtonVisibility = "hidden";
 
 
     protected override void OnInitialized()
@@ -70,22 +73,38 @@
             return;
         }
 
+        _stepDescription = string.Empty;
+
         for (var i = 0; i < _steps.Count; i++)
             if (_steps[i].Selection != string.Empty)
-                _stepDescription = _steps[i].IsLocked() ? "***" : _steps[i].GetDescription();
+                _stepDescription = _steps[i].IsLocked() ? string.Empty : _steps[i].GetDescription();
     }
     private void SelectCard(int stepNumber)
     {
+        var isSelection = false;
+
         for (int i = 0; i < _steps.Count; i++)
         {
             if (_steps[i].Selection != string.Empty)
             {
                 _steps[i] = new Step(_steps[i].Get(), string.Empty);
+                _selectedStep = default;
+                isSelection = true;
                 continue;
             }
 
             if (_steps[i].GetNumber() == stepNumber)
+            {
                 _steps[i] = new Step(_steps[i].Get(), "selected-step");
+                _selectedStep = _steps[i];
+                _playButtonVisibility = _selectedStep.IsLocked() ? "hidden" : "visible";
+            }
+        }
+
+        if (isSelection)
+        {
+            _playButtonVisibility = "hidden";
+            _selectedStep = default;
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿.instruction-side,
 .dashboard-side,
-.third-side {
+.quest-side {
   width: 100%;
   height: 100%;
   position: absolute;
@@ -12,37 +12,22 @@
   transition: transform 0.8s linear;
 }
 
-.instruction-side {
+.main-side .instruction-side {
   transform: perspective(1800px) rotateY(0);
 }
-
-.dashboard-side {
+.main-side .dashboard-side {
   transform: perspective(1800px) rotateY(180deg);
 }
-
-.third-side {
-  visibility: hidden;
+.main-side .quest-side {
   transform: perspective(1800px) rotateY(0);
 }
 
-.rotate > .instruction-side {
+.back-side .instruction-side {
   transform: perspective(1800px) rotateY(-180deg);
 }
-
-.rotate > .dashboard-side {
-  transform: perspective(1800px) rotateY(0deg);
+.back-side .dashboard-side {
+  transform: perspective(1800px) rotateY(0);
 }
-
-.rotate > .third-side {
+.back-side .quest-side {
   transform: perspective(1800px) rotateY(-180deg);
 }
-
-.qwe > .instruction-side {
-  visibility: hidden;
-}
-
-.qwe > .third-side {
-  visibility: visible;
-}
-
-/**************************************/
