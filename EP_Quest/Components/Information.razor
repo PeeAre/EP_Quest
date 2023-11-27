@@ -1,21 +1,18 @@
 ﻿<div class="@_side">
     <div class="instruction-side" style="visibility: @_instructionsVisibility">
-        <Instruction ToDashboard="FromInstructionsToDashboard"></Instruction>
+        <Instruction @ref="_instructionComponent" ToDashboard="FromInstructionsToDashboard"></Instruction>
     </div>
     <div class="dashboard-side" style="visibility: @_dashboardVisibility">
-        <Dashboard ToInstructions="ToInstructions" ToSelectedStep="ToSelectedStep"></Dashboard>
+        <Dashboard @ref="_dashboardComponent" ToInstructions="ToInstructions" ToSelectedStep="ToSelectedStep"></Dashboard>
     </div>
     <div class="quest-side" style="visibility: @_questVisibility">
-        <div style="padding: 2rem; display: flex; flex-direction: column; height: 100%; justify-content: space-between;">
-            <span>Quest side</span>
-            <div class="buttons-container">
-                <button class="nav-button" @onclick="FromQuestToDashboard">To dashboard</button>
-            </div>
-        </div>
+        <Quest FromQuestToDashboard="FromQuestToDashboard"></Quest>
     </div>
 </div>
 
 @code {
+    private Instruction _instructionComponent;
+    private Dashboard _dashboardComponent;
     private string _side = "main-side";
     private string _instructionsVisibility = "visible";
     private string _dashboardVisibility = "visible";
@@ -24,8 +21,9 @@
     protected override async Task OnInitializedAsync()
     {
     }
-    private void ToInstructions()
+    private async Task ToInstructions()
     {
+        await _instructionComponent.Init();
         _instructionsVisibility = "visible";
         _dashboardVisibility = "visible";
         _questVisibility = "hidden";
@@ -33,6 +31,7 @@
     }
     private void FromInstructionsToDashboard()
     {
+        _dashboardComponent.Init();
         _instructionsVisibility = "visible";
         _dashboardVisibility = "visible";
         _questVisibility = "hidden";
@@ -40,6 +39,7 @@
     }
     private void FromQuestToDashboard()
     {
+        _dashboardComponent.Init();
         _instructionsVisibility = "hidden";
         _dashboardVisibility = "visible";
         _questVisibility = "visible";

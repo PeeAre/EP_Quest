@@ -8,9 +8,9 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["EP_Quest/EP_Quest.csproj", "EP_Quest/"]
-RUN dotnet restore "./EP_Quest/./EP_Quest.csproj"
-COPY . .
+COPY ["EP_Quest.csproj", "EP_Quest/"]
+RUN dotnet restore "./EP_Quest/EP_Quest.csproj"
+COPY [".", "EP_Quest/"]
 WORKDIR "/src/EP_Quest"
 RUN dotnet build "./EP_Quest.csproj" -c $BUILD_CONFIGURATION -o /app/build
 

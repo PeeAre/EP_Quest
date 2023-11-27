@@ -48,16 +48,25 @@
     public EventCallback ToDashboard { get; set; }
 
     private Instructions _instructions;
-    private string _instructionOpacity = "fade-in";
-    private string _backButtonVisibility = "hidden";
-    private string _nextButtonVisibility = string.Empty;
+    private string _instructionOpacity;
+    private string _backButtonVisibility;
+    private string _nextButtonVisibility;
     private const string BackButtonText = "Back";
-    private string _nextButtonText = "Next";
-    private bool _canStartQuest = false;
+    private string _nextButtonText;
+    private bool _canStartQuest;
 
 
     protected override async Task OnInitializedAsync()
     {
+        await Init();
+    }
+    public async Task Init()
+    {
+        _instructionOpacity = "fade-in";
+        _backButtonVisibility = "hidden";
+        _nextButtonVisibility = string.Empty;
+        _nextButtonText = "Next";
+        _canStartQuest = false;
         var instructions = await Repository.Instructions.OrderBy(x => x.Number).ToArrayAsync();
         _instructions = new Instructions(instructions);
     }

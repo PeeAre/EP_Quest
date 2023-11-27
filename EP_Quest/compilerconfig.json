@@ -8,10 +8,6 @@
     "inputFile": "Components/Greeting.razor.scss"
   },
   {
-    "outputFile": "Components/Note.razor.css",
-    "inputFile": "Components/Note.razor.scss"
-  },
-  {
     "outputFile": "Components/Instruction.razor.css",
     "inputFile": "Components/Instruction.razor.scss"
   },
@@ -22,5 +18,9 @@
   {
     "outputFile": "Components/Information.razor.css",
     "inputFile": "Components/Information.razor.scss"
+  },
+  {
+    "outputFile": "Components/Quest.razor.css",
+    "inputFile": "Components/Quest.razor.scss"
   }
 ]
