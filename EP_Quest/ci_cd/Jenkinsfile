@@ -1,31 +1,10 @@
 ﻿pipeline {
-  agent any
-  options {
-    buildDiscarder(logRotator(numToKeepStr: '5'))
-  }
-  environment {
-    DOCKERHUB_CREDENTIALS = credentials('dockerhub')
-  }
-  stages {
-    stage('Build') {
-      steps {
-        sh 'EP_Quest/docker build -t .'
-      }
+    agent any 
+    stages {
+        stage('Stage 1') {
+            steps {
+                echo 'Hello world!' 
+            }
+        }
     }
-    stage('Login') {
-      steps {
-        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-      }
-    }
-    stage('Push') {
-      steps {
-        sh 'EP_Quest/docker push peeare/ep-quest-app'
-      }
-    }
-  }
-  post {
-    always {
-      sh 'docker logout'
-    }
-  }
 }
