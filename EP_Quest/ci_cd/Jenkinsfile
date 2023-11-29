@@ -1,4 +1,4 @@
-﻿pipeline {
+﻿node {
     agent any
     stages {
         stage('First step') {
