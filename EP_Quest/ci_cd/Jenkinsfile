@@ -1,15 +1,3 @@
-﻿node {
-    agent any
-    stages {
-        stage('First step') {
-            steps {
-                sh 'First step'
-            }
-        }
-        stage('Second step') {
-            steps {
-                sh 'Second step'
-            }
-        }
-    }
+﻿stage('someStage') {
+    // some block
 }
