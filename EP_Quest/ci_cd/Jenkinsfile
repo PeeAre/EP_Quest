@@ -1,17 +1,11 @@
-﻿#!/usr/bin/env groovy
-
-pipeline {
-    agent any
-    stages {
-        stage('First step') {
-            steps {
-                sh 'First step'
-            }
-        }
-        stage('Second step') {
-            steps {
-                sh 'Second step'
-            }
-        }
+node {  
+    stage('Build') { 
+        // 
+    }
+    stage('Test') { 
+        // 
+    }
+    stage('Deploy') { 
+        // 
     }
 }
