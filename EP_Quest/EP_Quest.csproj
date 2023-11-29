@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ci_ci\**" />
+    <Content Remove="ci_ci\**" />
+    <EmbeddedResource Remove="ci_ci\**" />
+    <None Remove="ci_ci\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="compilerconfig.json" />
   </ItemGroup>
 
