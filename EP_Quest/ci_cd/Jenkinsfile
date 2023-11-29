@@ -1,11 +1,12 @@
-node {  
-    stage('Build') { 
-        // 
+node {
+    agent any
+    stage('Build') {
+        sh 'build-step'
     }
-    stage('Test') { 
-        // 
+    stage('Test') {
+        sh 'test-step'
     }
-    stage('Deploy') { 
-        // 
+    stage('Deploy') {
+        sh 'deploy-step'
     }
 }
