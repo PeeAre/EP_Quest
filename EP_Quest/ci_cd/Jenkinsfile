@@ -9,7 +9,7 @@
   stages {
     stage('Build') {
       steps {
-        sh 'docker-compose build -t .'
+        sh 'EP_Quest/docker build -t .'
       }
     }
     stage('Login') {
@@ -19,7 +19,7 @@
     }
     stage('Push') {
       steps {
-        sh 'docker push peeare/ep-quest-app'
+        sh 'EP_Quest/docker push peeare/ep-quest-app'
       }
     }
   }
