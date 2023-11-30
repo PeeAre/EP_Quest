@@ -1,12 +1,12 @@
-﻿version: "3"
+version: "3"
 services:
   app: 
     container_name: ep-quest
-    image: peeare/ep-quest-app:latest
-    restart: always
     build:
       context: .
       dockerfile: Dockerfile
+    image: peeare/ep-quest-app:latest
+    restart: always
     ports:
       - "80:80"
       - "443:443"
