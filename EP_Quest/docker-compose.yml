@@ -6,7 +6,6 @@ services:
       context: .
       dockerfile: Dockerfile
     image: peeare/ep-quest-app:latest
-    restart: always
     ports:
       - "80:80"
       - "443:443"
