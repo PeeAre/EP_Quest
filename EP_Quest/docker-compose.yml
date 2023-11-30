@@ -5,14 +5,14 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: peeare/ep-quest-app
+    image: peeare/ep-quest-app:latest
     ports:
       - "80:80"
       - "443:443"
     depends_on:
       - postgres_db
   postgres_db:
-    image: postgres
+    image: postgres:latest
     container_name: postgres_deamon
     restart: always
     environment:
