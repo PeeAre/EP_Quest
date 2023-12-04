@@ -22,7 +22,6 @@
     scene.postProcessRenderPipelineManager.attachCamerasToRenderPipeline("glitchPipeline", camera);
     engine.runRenderLoop(() => {
         scene.render();
-        console.log(camera.position);
     });
 
     window.addEventListener("resize", function () {
