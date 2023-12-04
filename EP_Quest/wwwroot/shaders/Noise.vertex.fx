@@ -1,5 +1,4 @@
-﻿// Вершинный шейдер (Noise.vertex.fx)
-precision highp float;
+﻿precision highp float;
 
 attribute vec3 position;
 attribute vec3 normal;
