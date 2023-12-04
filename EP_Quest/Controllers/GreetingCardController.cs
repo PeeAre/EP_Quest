@@ -3,18 +3,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EP_Quest.Controllers
 {
-    public class QuestController : Controller
+    public class GreetingCardController : Controller
     {
         private readonly QuestDbContext _dbContext;
 
-        public QuestController(QuestDbContext dbContext)
+        public GreetingCardController(QuestDbContext dbContext)
         {
             _dbContext = dbContext;
         }
-        [HttpGet]
         public IActionResult Index()
         {
-            ViewBag.Title = "Quest";
+            ViewBag.Title = "Greeting Card";
 
             return View();
         }

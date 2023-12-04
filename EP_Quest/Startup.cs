@@ -6,7 +6,7 @@ namespace EP_Quest
 {
     public class Startup
     {
-        private IConfiguration Configuration { get; set; }
+        private IConfiguration Configuration { get; }
 
         public Startup(IConfiguration config)
         {
@@ -14,9 +14,9 @@ namespace EP_Quest
         }
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages().AddRazorRuntimeCompilation();
             services.AddServerSideBlazor();
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddDbContext<QuestDbContext>(options =>
             {
                 options.UseNpgsql(Configuration["ConnectionStrings:PostgreSQL_Connection"]);
@@ -31,17 +31,23 @@ namespace EP_Quest
             }
             else
             {
-                app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
+                app.UseExceptionHandler("/Error");
             }
 
-            app.UseStaticFiles();
+            app.UseCors(builder => builder.AllowAnyOrigin());
             app.UseRouting();
+            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                ServeUnknownFileTypes = true
+            });
+            app.UseHttpsRedirection();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapBlazorHub();
                 endpoints.MapDefaultControllerRoute();
+                endpoints.MapFallbackToFile("/Components/Routing");
             });
             DatabaseService.EnsurePopulated(dbContext);
         }

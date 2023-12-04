@@ -10,7 +10,6 @@ namespace EP_Quest
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStaticWebAssets();
                     webBuilder.UseStartup<Startup>();
                 });
     }

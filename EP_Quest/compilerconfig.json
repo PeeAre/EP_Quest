@@ -22,5 +22,21 @@
   {
     "outputFile": "Components/Quest.razor.css",
     "inputFile": "Components/Quest.razor.scss"
+  },
+  {
+    "outputFile": "Components/Home/General.razor.css",
+    "inputFile": "Components/Home/General.razor.scss"
+  },
+  {
+    "outputFile": "Components/Home/Index.razor.css",
+    "inputFile": "Components/Home/Index.razor.scss"
+  },
+  {
+    "outputFile": "Components/GreetingCard/Index.razor.css",
+    "inputFile": "Components/GreetingCard/Index.razor.scss"
+  },
+  {
+    "outputFile": "Components/Quest/Index.razor.css",
+    "inputFile": "Components/Quest/Index.razor.scss"
   }
 ]

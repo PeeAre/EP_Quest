@@ -1,0 +1,15 @@
+﻿.character-container {
+    background: rgba(1, 15, 61, 0.2);
+    border: 2px solid #00add4;
+    border-radius: 10px;
+    flex-grow: 1;
+}
+
+.dashboard-container {
+    position: relative;
+    background: rgba(1, 15, 61, 0.2);
+    border: 2px solid #00add4;
+    overflow: hidden;
+    border-radius: 10px;
+    flex-grow: 1.5;
+}

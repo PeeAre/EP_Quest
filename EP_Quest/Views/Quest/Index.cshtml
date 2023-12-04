@@ -1,8 +1,5 @@
-﻿<div class="quest-container">
-    <div class="character-container">
-        @(await Html.RenderComponentAsync<Character>(RenderMode.ServerPrerendered))
-    </div>
-    <div class="note-container">
-        @(await Html.RenderComponentAsync<Information>(RenderMode.ServerPrerendered))
-    </div>
+﻿@using Component = EP_Quest.Components.Quest.Index
+
+<div class="quest-container">
+    @(await Html.RenderComponentAsync<Component>(RenderMode.ServerPrerendered))
 </div>

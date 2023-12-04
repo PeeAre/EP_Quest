@@ -5,9 +5,13 @@
     <base href="~/" />
     <link href="css/main.css" rel="stylesheet">
     <link href="EP_Quest.styles.css" rel="stylesheet" />
+    <script src="https://cdn.babylonjs.com/babylon.js"></script>
+    <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+    <script src="https://cdn.babylonjs.com/postProcessesLibrary/babylonjs.postProcess.min.js"></script>
+    <script src="js/Render.js"></script>
 </head>
 <body>
-    <div class="main">
+    <main>
         <div class="particles">
             @for (var i = 0; i < 16; i++)
             {
@@ -15,7 +19,7 @@
             }
         </div>
         @RenderBody()
-    </div>
+    </main>
     <script src="_framework/blazor.server.js"></script>
 </body>
 </html>

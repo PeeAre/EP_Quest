@@ -7,7 +7,7 @@ namespace EP_Quest.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            ViewBag.Title = "Your Quest";
+            ViewBag.Title = "Your Gift";
 
             return View();
         }

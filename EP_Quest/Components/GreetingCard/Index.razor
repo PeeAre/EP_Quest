@@ -1,0 +1,20 @@
+﻿@inject IJSRuntime JSRuntime
+
+<div class="render-container">
+    <canvas id="render-canvas"></canvas>
+</div>
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LoadBabylonSceneAsync();
+        }
+    }
+
+    private async Task LoadBabylonSceneAsync()
+    {
+        await JSRuntime.InvokeVoidAsync("loadBabylon", "render-canvas");
+    }
+}

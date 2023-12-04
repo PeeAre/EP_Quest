@@ -46,12 +46,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Components\Quest.razor.scss" />
+    <Content Include="Components\Quest\Internal\Quest.razor.scss" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="compilerconfig.json" />
     <None Include="wwwroot\images\fullscreen.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Components\Home\Internal\" />
+    <Folder Include="Components\GreetingCard\Internal\" />
   </ItemGroup>
 
 </Project>

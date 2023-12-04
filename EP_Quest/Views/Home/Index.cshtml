@@ -1,3 +1,5 @@
-﻿<div class="greeting-container">
-    @(await Html.RenderComponentAsync<Greeting>(RenderMode.ServerPrerendered))
+﻿@using Component = EP_Quest.Components.Home.Index
+
+<div class="home-container">
+    @(await Html.RenderComponentAsync<Component>(RenderMode.ServerPrerendered))
 </div>
