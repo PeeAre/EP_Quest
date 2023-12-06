@@ -82,24 +82,4 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
-  /*.brush-back-button {
-      width: 4.5rem;
-      height: 3.125rem;
-
-      &:before {
-          z-index: 10;
-          content: "";
-          position: absolute;
-          background-image: url('images/brush-arrow.svg');
-          -webkit-transform: scaleX(-1);
-          transform: scaleX(-1);
-          background-size: 4.5rem 3.125rem;
-          width: 4.5rem;
-          height: 3.125rem;
-      }
-
-      &:hover {
-          cursor: pointer;
-      }
-  }*/
 }

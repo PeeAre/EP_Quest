@@ -1,5 +1,6 @@
 ﻿using EP_Quest.Models;
 using EP_Quest.Services;
+using EP_Quest.Services.Classes;
 using Microsoft.EntityFrameworkCore;
 
 namespace EP_Quest
@@ -22,8 +23,11 @@ namespace EP_Quest
                 options.UseNpgsql(Configuration["ConnectionStrings:PostgreSQL_Connection"]);
             }, ServiceLifetime.Transient);
             services.AddTransient<IQuestRepository, QuestRepository>();
+            services.AddDatabaseService();
+            services.AddNotificationService();
         }
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, QuestDbContext dbContext)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
+            QuestDbContext dbContext, DatabaseService dbService)
         {
             if (env.IsDevelopment())
             {
@@ -49,7 +53,7 @@ namespace EP_Quest
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapFallbackToFile("/Components/Routing");
             });
-            DatabaseService.EnsurePopulated(dbContext);
+            dbService.EnsurePopulated(dbContext);
         }
     }
 }

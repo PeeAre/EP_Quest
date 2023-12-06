@@ -1,5 +1,22 @@
-﻿@inject LinkGenerator LGenerator
+﻿@using EP_Quest.Components.Shared
+@inject LinkGenerator LGenerator
+
+<Preloader IsLoading="IsLoading"></Preloader>
 
 <h2 class="home-title">Your gift</h2>
 <a href="@LGenerator.GetPathByAction("Index", "GreetingCard")"><span>Postcard</span></a>
 <a href="@LGenerator.GetPathByAction("Index", "Quest")"><span>Quest</span></a>
+
+@code {
+    private bool IsLoading { get; set; } = true;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await Task.Delay(1000);
+            IsLoading = false;
+            StateHasChanged();
+        }
+    }
+}

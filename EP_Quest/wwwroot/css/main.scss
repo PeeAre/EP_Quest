@@ -73,7 +73,7 @@ $cream: #fff9e6;
 .circle {
     border-radius: 50%;
     position: absolute;
-    z-index: 4;
+    z-index: 64;
 }
 
 @for $i from 1 through 31 {

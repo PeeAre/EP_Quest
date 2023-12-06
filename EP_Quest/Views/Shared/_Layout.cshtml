@@ -1,13 +1,16 @@
-﻿<!DOCTYPE html>
+﻿@using EP_Quest.Components.Shared
+
+<!DOCTYPE html>
 <html>
 <head>
-    <title>@ViewBag.Title</title>
-    <base href="~/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@((string)ViewBag.Title)</title>
+    <base href="~/"/>
     <link href="css/main.css" rel="stylesheet">
-    <link href="EP_Quest.styles.css" rel="stylesheet" />
+    <link href="EP_Quest.styles.css" rel="stylesheet"/>
     <script src="https://cdn.babylonjs.com/babylon.js"></script>
     <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
-    <script src="https://cdn.babylonjs.com/postProcessesLibrary/babylonjs.postProcess.min.js"></script>
+    <script src="https://cdn.babylonjs.com/serializers/babylonjs.serializers.min.js"></script>
     <script src="js/Render.js"></script>
 </head>
 <body>

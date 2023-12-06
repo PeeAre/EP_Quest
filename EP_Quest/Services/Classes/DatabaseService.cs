@@ -1,11 +1,11 @@
 ﻿using EP_Quest.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace EP_Quest.Services
+namespace EP_Quest.Services.Classes
 {
-    public static class DatabaseService
+    public class DatabaseService
     {
-        public static void EnsurePopulated(QuestDbContext dbContext)
+        public void EnsurePopulated(QuestDbContext dbContext)
         {
             if (dbContext.Database.GetPendingMigrations().Any())
             {

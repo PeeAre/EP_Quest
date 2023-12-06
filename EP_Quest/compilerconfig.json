@@ -1,42 +1,38 @@
 ﻿[
-  {
-    "outputFile": "wwwroot/css/main.css",
-    "inputFile": "wwwroot/css/main.scss"
-  },
-  {
-    "outputFile": "Components/Greeting.razor.css",
-    "inputFile": "Components/Greeting.razor.scss"
-  },
-  {
-    "outputFile": "Components/Instruction.razor.css",
-    "inputFile": "Components/Instruction.razor.scss"
-  },
-  {
-    "outputFile": "Components/Dashboard.razor.css",
-    "inputFile": "Components/Dashboard.razor.scss"
-  },
-  {
-    "outputFile": "Components/Information.razor.css",
-    "inputFile": "Components/Information.razor.scss"
-  },
-  {
-    "outputFile": "Components/Quest.razor.css",
-    "inputFile": "Components/Quest.razor.scss"
-  },
-  {
-    "outputFile": "Components/Home/General.razor.css",
-    "inputFile": "Components/Home/General.razor.scss"
-  },
-  {
-    "outputFile": "Components/Home/Index.razor.css",
-    "inputFile": "Components/Home/Index.razor.scss"
-  },
-  {
-    "outputFile": "Components/GreetingCard/Index.razor.css",
-    "inputFile": "Components/GreetingCard/Index.razor.scss"
-  },
-  {
-    "outputFile": "Components/Quest/Index.razor.css",
-    "inputFile": "Components/Quest/Index.razor.scss"
-  }
+    {
+        "outputFile": "wwwroot/css/main.css",
+        "inputFile": "wwwroot/css/main.scss"
+    },
+    {
+        "outputFile": "Components/GreetingCard/Index.razor.css",
+        "inputFile": "Components/GreetingCard/Index.razor.scss"
+    },
+    {
+        "outputFile": "Components/Home/Index.razor.css",
+        "inputFile": "Components/Home/Index.razor.scss"
+    },
+    {
+        "outputFile": "Components/Quest/Index.razor.css",
+        "inputFile": "Components/Quest/Index.razor.scss"
+    },
+    {
+        "outputFile": "Components/Quest/Internal/Dashboard.razor.css",
+        "inputFile": "Components/Quest/Internal/Dashboard.razor.scss"
+    },
+    {
+        "outputFile": "Components/Quest/Internal/Information.razor.css",
+        "inputFile": "Components/Quest/Internal/Information.razor.scss"
+    },
+    {
+        "outputFile": "Components/Quest/Internal/Instruction.razor.css",
+        "inputFile": "Components/Quest/Internal/Instruction.razor.scss"
+    },
+    {
+        "outputFile": "Components/Quest/Internal/Quest.razor.css",
+        "inputFile": "Components/Quest/Internal/Quest.razor.scss"
+    },
+    {
+        "outputFile": "Components/Shared/Preloader.razor.css",
+        "inputFile": "Components/Shared/Preloader.razor.scss"
+    }
 ]

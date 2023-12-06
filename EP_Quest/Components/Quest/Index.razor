@@ -1,4 +1,7 @@
 ﻿@using EP_Quest.Components.Quest.Internal
+@using EP_Quest.Components.Shared
+
+<Preloader IsLoading="IsLoading"></Preloader>
 
 <div class="character-container">
     <Character></Character>
@@ -6,3 +9,17 @@
 <div class="dashboard-container">
     <Information></Information>
 </div>
+
+@code {
+    private bool IsLoading { get; set; } = true;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await Task.Delay(1000);
+            IsLoading = false;
+            StateHasChanged();
+        }
+    }
+}

@@ -1,20 +1,55 @@
-﻿@inject IJSRuntime JSRuntime
+﻿@using EP_Quest.Components.Shared
+@inject IJSRuntime JSRuntime
 
-<div class="render-container">
-    <canvas id="render-canvas"></canvas>
+<Preloader IsLoading="IsLoading"></Preloader>
+
+<canvas id="render-canvas"></canvas>
+
+<div style="display: @GetOverlayVisibility()" class="overlay">
+    <div class="text-container">
+        <p id="printed-text">@CurrentText</p>
+    </div>
 </div>
 
 @code {
+    private static bool IsLoading { get; set; }
+    private const string SceneUrl = "https://dl.dropboxusercontent.com/scl/fi/f7vto3x8c75kit7tpr5hq/Gangster.glb?rlkey=mkm188k1guwy4itcnmihlwmri&dl=0";
+    private const string PrintedText = "Ваш текст здесь Ваш текст здесь Ваш текст здесь Ваш текст здесь Ваш текст здесь Ваш текст здесь Ваш текст здесь Ваш текст здесь Ваш текст здесь Ваш текст здесь";
+    public string CurrentText = string.Empty;
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            await LoadBabylonSceneAsync();
+            IsLoading = true;
+            StateHasChanged();
+            await LoadSceneAsync();
         }
     }
 
-    private async Task LoadBabylonSceneAsync()
+    private string GetOverlayVisibility() => IsLoading ? "none" : "block";
+
+    private async Task LoadSceneAsync()
     {
-        await JSRuntime.InvokeVoidAsync("loadBabylon", "render-canvas");
+        await JSRuntime.InvokeVoidAsync("RenderOnCanvasAsync", "render-canvas", SceneUrl);
+        StateHasChanged();
+        await PrintTextAsync();
+    }
+    private async Task PrintTextAsync()
+    {
+        var textArray = PrintedText.ToCharArray();
+
+        foreach (var character in textArray)
+        {
+            await Task.Delay(100);
+            CurrentText += character;
+            StateHasChanged();
+        }
+    }
+
+    [JSInvokable]
+    public static void OnSceneReady()
+    {
+        IsLoading = false;
     }
 }
