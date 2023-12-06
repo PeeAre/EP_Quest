@@ -51,7 +51,6 @@ namespace EP_Quest
             {
                 endpoints.MapBlazorHub();
                 endpoints.MapDefaultControllerRoute();
-                endpoints.MapFallbackToFile("/Components/Routing");
             });
             dbService.EnsurePopulated(dbContext);
         }

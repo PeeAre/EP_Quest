@@ -3,39 +3,38 @@
 
 <Preloader IsLoading="IsLoading"></Preloader>
 
-<canvas id="render-canvas"></canvas>
-
-<div style="display: @GetOverlayVisibility()" class="overlay">
+<div class="overlay">
     <div class="text-container">
         <p id="printed-text">@CurrentText</p>
     </div>
 </div>
 
+<canvas id="render-canvas"></canvas>
+
 @code {
+    public static event Action OnUpdate = delegate { };
     private static bool IsLoading { get; set; }
     private const string SceneUrl = "https://dl.dropboxusercontent.com/scl/fi/f7vto3x8c75kit7tpr5hq/Gangster.glb?rlkey=mkm188k1guwy4itcnmihlwmri&dl=0";
     private const string PrintedText = "Ваш текст здесь Ваш текст здесь Ваш текст здесь Ваш текст здесь Ваш текст здесь Ваш текст здесь Ваш текст здесь Ваш текст здесь Ваш текст здесь Ваш текст здесь";
-    public string CurrentText = string.Empty;
+    public static string CurrentText { get; set; } = string.Empty;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
+            OnUpdate = StateHasChanged;
             IsLoading = true;
+            CurrentText = string.Empty;
             StateHasChanged();
             await LoadSceneAsync();
         }
     }
 
-    private string GetOverlayVisibility() => IsLoading ? "none" : "block";
-
     private async Task LoadSceneAsync()
     {
-        await JSRuntime.InvokeVoidAsync("RenderOnCanvasAsync", "render-canvas", SceneUrl);
-        StateHasChanged();
-        await PrintTextAsync();
+        JSRuntime.InvokeVoidAsync("RenderOnCanvasAsync", "render-canvas", SceneUrl);
     }
-    private async Task PrintTextAsync()
+    private static async Task PrintTextAsync()
     {
         var textArray = PrintedText.ToCharArray();
 
@@ -43,7 +42,7 @@
         {
             await Task.Delay(100);
             CurrentText += character;
-            StateHasChanged();
+            OnUpdate?.Invoke();
         }
     }
 
@@ -51,5 +50,6 @@
     public static void OnSceneReady()
     {
         IsLoading = false;
+        PrintTextAsync();
     }
 }

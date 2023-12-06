@@ -1,43 +1,42 @@
 ﻿BABYLON = window.BABYLON;
 DotNet = window.DotNet;
 
-var canvas;
+var canvas1;
 var engine;
 var scene;
-var camera;
-var light;
 
-async function RenderOnCanvasAsync(canvasId, sceneUrl) {
+function RenderOnCanvasAsync(canvasId, sceneUrl) {
     InitScene(canvasId);
-    var loadMeshTask = LoadMesh(scene, sceneUrl);
-    
 
-    return await loadMeshTask;
+    window.addEventListener("resize", function () {
+        engine.resize();
+    });
+
+    LoadScene(scene, sceneUrl);
 }
 function InitScene(canvasId) {
-    canvas = document.getElementById(canvasId);
-    engine = new BABYLON.Engine(canvas, true);
-    scene = new BABYLON.Scene(engine);
-    
-    light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
-    light.intensity = 0.7;
+    try {
+        canvas1 = document.getElementById(canvasId);
+        engine = new BABYLON.Engine(canvas1, true);
+        scene = new BABYLON.Scene(engine);
+        scene.clearColor = new BABYLON.Color4(0.8, 0.8, 0.8, 1);
+        var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+        light.intensity = 0.7;
+    } catch (error) {
+        console.log(error);
+    }
 }
-async function LoadMesh(scene, sceneUrl) {
-    return await BABYLON.SceneLoader.ImportMeshAsync("", "", sceneUrl, scene)
+async function LoadScene(scene, sceneUrl) {
+    await BABYLON.SceneLoader.ImportMeshAsync("", "", sceneUrl, scene)
         .then(() => {
-            camera = scene.getCameraByName("Camera");
-            camera.attachControl(canvas, true);
-            scene.activeCamera = camera;
-            AddPostProcess();
-            await DotNet.invokeMethodAsync('EP_Quest', 'OnSceneReady');
-
+            scene.activeCamera = scene.cameras[0];
+            scene.animationGroups.forEach(x => x.stop());
+            scene.animationGroups.forEach(x => x.start());
             engine.runRenderLoop(() => {
                 scene.render();
             });
-            window.addEventListener("resize", function () {
-                engine.resize();
-            });
         });
+    await DotNet.invokeMethodAsync('EP_Quest', 'OnSceneReady');
 }
 function AddPostProcess() {
     var postProcess = new BABYLON.PostProcess("Glitch", "./shaders/Noise", ["time"], null, 1.0, camera);
