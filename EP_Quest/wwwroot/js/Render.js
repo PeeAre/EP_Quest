@@ -1,52 +1,42 @@
 ﻿BABYLON = window.BABYLON;
 DotNet = window.DotNet;
 
-var canvas1;
+var canvas;
 var engine;
 var scene;
+var camera;
 
-function RenderOnCanvasAsync(canvasId, sceneUrl) {
+async function RenderOnCanvasAsync(canvasId, scenePath) {
     InitScene(canvasId);
+    await LoadScene(scenePath);
+    AddPostProcess();
 
+    engine.runRenderLoop(function () {
+        scene.render();
+    });
     window.addEventListener("resize", function () {
         engine.resize();
     });
+}
 
-    LoadScene(scene, sceneUrl);
-}
 function InitScene(canvasId) {
-    try {
-        canvas1 = document.getElementById(canvasId);
-        engine = new BABYLON.Engine(canvas1, true);
-        scene = new BABYLON.Scene(engine);
-        scene.clearColor = new BABYLON.Color4(0.8, 0.8, 0.8, 1);
-        var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
-        light.intensity = 0.7;
-    } catch (error) {
-        console.log(error);
-    }
+    canvas = document.getElementById(canvasId);
+    engine = new BABYLON.Engine(canvas, true);
+    scene = new BABYLON.Scene(engine);
+    var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+    light.intensity = 0.7;
 }
-async function LoadScene(scene, sceneUrl) {
-    await BABYLON.SceneLoader.ImportMeshAsync("", "", sceneUrl, scene)
+async function LoadScene(scenePath) {
+    await BABYLON.SceneLoader.ImportMeshAsync("", "", scenePath, scene)
         .then(() => {
-            scene.activeCamera = scene.cameras[0];
+            camera = scene.activeCamera = scene.cameras[0];
+            camera.minZ = 0.01;
             scene.animationGroups.forEach(x => x.stop());
             scene.animationGroups.forEach(x => x.start());
-            engine.runRenderLoop(() => {
-                scene.render();
-            });
         });
     await DotNet.invokeMethodAsync('EP_Quest', 'OnSceneReady');
 }
 function AddPostProcess() {
-    var postProcess = new BABYLON.PostProcess("Glitch", "./shaders/Noise", ["time"], null, 1.0, camera);
-    postProcess.onApply = function (effect) {
-        effect.setFloat("time", performance.now() * 0.001);
-    };
-    var pipeline = new BABYLON.DefaultRenderingPipeline("glitchPipeline", true, scene, [camera]);
-    pipeline.imageProcessingEnabled = false;
-    postProcess.onError = function (effect, errors) {
-        console.error("Shader compilation errors: ", errors);
-    };
-    scene.postProcessRenderPipelineManager.attachCamerasToRenderPipeline("glitchPipeline", camera);
+    var glitchMesh = scene.meshes.find(x => x.name === "handLOW");
+    console.log(glitchMesh);
 }

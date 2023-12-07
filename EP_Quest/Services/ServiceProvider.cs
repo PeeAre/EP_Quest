@@ -12,5 +12,9 @@ namespace EP_Quest.Services
         {
             services.AddScoped<NotificationService>();
         }
+        public static void AddDropboxService(this IServiceCollection services, string accessToken)
+        {
+            services.AddSingleton(new DropboxService(accessToken));
+        }
     }
 }

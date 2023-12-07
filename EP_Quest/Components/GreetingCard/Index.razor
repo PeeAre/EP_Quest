@@ -1,5 +1,8 @@
 ﻿@using EP_Quest.Components.Shared
+@using EP_Quest.Services.Classes
+@inject DropboxService DService
 @inject IJSRuntime JSRuntime
+@inject IWebHostEnvironment HostingEnvironment
 
 <Preloader IsLoading="IsLoading"></Preloader>
 
@@ -14,7 +17,7 @@
 @code {
     public static event Action OnUpdate = delegate { };
     private static bool IsLoading { get; set; }
-    private const string SceneUrl = "https://dl.dropboxusercontent.com/scl/fi/f7vto3x8c75kit7tpr5hq/Gangster.glb?rlkey=mkm188k1guwy4itcnmihlwmri&dl=0";
+    private const string SceneName = "Gangster";
     private const string PrintedText = "Ваш текст здесь Ваш текст здесь Ваш текст здесь Ваш текст здесь Ваш текст здесь Ваш текст здесь Ваш текст здесь Ваш текст здесь Ваш текст здесь Ваш текст здесь";
     public static string CurrentText { get; set; } = string.Empty;
 
@@ -32,7 +35,13 @@
 
     private async Task LoadSceneAsync()
     {
-        JSRuntime.InvokeVoidAsync("RenderOnCanvasAsync", "render-canvas", SceneUrl);
+        var sceneRemotePath = $"{DService.ScenesRemoteDirectory}/{SceneName}.glb";
+        var sceneLocalPath = Path.Combine(HostingEnvironment.WebRootPath, "models\\" + SceneName + ".glb");
+
+        if (!File.Exists(sceneLocalPath))
+            await DService.DownloadFileAsync(sceneRemotePath, sceneLocalPath);
+
+        await JSRuntime.InvokeVoidAsync("RenderOnCanvasAsync", "render-canvas", $"{DService.ScenesLocalDirectory}/{SceneName}.glb");
     }
     private static async Task PrintTextAsync()
     {
