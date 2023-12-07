@@ -12,9 +12,13 @@ namespace EP_Quest.Services
         {
             services.AddScoped<NotificationService>();
         }
-        public static void AddDropboxService(this IServiceCollection services, string accessToken)
+        public static void AddDropboxService(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddSingleton(new DropboxService(accessToken));
+            var refreshToken = configuration["DropboxAccess:RefreshAccessToken"];
+            var appKey = configuration["DropboxAccess:ApplicationKey"];
+            var appSecret = configuration["DropboxAccess:ApplicationSecret"];
+
+            services.AddSingleton(new DropboxService(refreshToken, appKey, appSecret));
         }
     }
 }

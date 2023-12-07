@@ -24,7 +24,7 @@ namespace EP_Quest
             }, ServiceLifetime.Transient);
             services.AddTransient<IQuestRepository, QuestRepository>();
             services.AddDatabaseService();
-            services.AddDropboxService(Configuration["DropboxAccess:AccessToken"]);
+            services.AddDropboxService(Configuration);
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
             QuestDbContext dbContext, DatabaseService dbService)
