@@ -1,5 +1,6 @@
 ﻿@using EP_Quest.Components.Shared
 @using EP_Quest.Services.Classes
+@inject LinkGenerator LGenerator
 @inject DropboxService DService
 @inject IJSRuntime JSRuntime
 @inject IWebHostEnvironment HostingEnvironment
@@ -9,6 +10,10 @@
 <div class="overlay">
     <div class="text-container">
         <p id="printed-text">@CurrentText</p>
+        <div class="buttons-container">
+            <a href="@LGenerator.GetPathByAction("Index", "Home")"><span>Na glawnuyu</span></a>
+            <a @onclick="SwitchGlitch"><span>Switch Glitch</span></a>
+        </div>
     </div>
 </div>
 
@@ -18,7 +23,7 @@
     public static event Action OnUpdate = delegate { };
     private static bool IsLoading { get; set; }
     private const string SceneName = "Gangster";
-    private const string PrintedText = "Ваш текст здесь Ваш текст здесь Ваш текст здесь Ваш текст здесь Ваш текст здесь Ваш текст здесь Ваш текст здесь Ваш текст здесь Ваш текст здесь Ваш текст здесь";
+    private const string PrintedText = "Ваш текст здесь Ваш текст здесь Ваш текст здесь ";
     public static string CurrentText { get; set; } = string.Empty;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -33,6 +38,10 @@
         }
     }
 
+    private async Task SwitchGlitch()
+    {
+        await JSRuntime.InvokeVoidAsync("SwitchGlitch");
+    }
     private async Task LoadSceneAsync()
     {
         var sceneRemotePath = $"{DService.ScenesRemoteDirectory}/{SceneName}.glb";
@@ -49,7 +58,7 @@
 
         foreach (var character in textArray)
         {
-            await Task.Delay(100);
+            await Task.Delay(40);
             CurrentText += character;
             OnUpdate?.Invoke();
         }

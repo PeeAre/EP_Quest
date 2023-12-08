@@ -19,10 +19,6 @@ void main(void) {
     float threshold = 0.05;
 
     if (random_value < threshold) {
-        // Если случайное значение меньше порога, применяем помехи
-        // Увеличиваем значение шума для более резких изменений
-        float distortionX = sin(uv.y * 100.0 + time) * 10.0;
-
         // Используем цвета соседних пикселей для создания фрагментированных помех
         vec4 color = vec4(
             texture2D(textureSampler, uv).r,
@@ -34,10 +30,10 @@ void main(void) {
     }
     else {
         // Если случайное значение не меньше порога, применяем ваш код
-        float random_value = random(vec2(floor(uv.y * 4.0), time * 0.01));
+        float random_value = random(vec2(floor(uv.y * 8.0), time * 0.1));
 
-        if (random_value < 0.04) {
-            gl_FragColor = texture2D(textureSampler, vec2(uv.x + random_value * 0.4, uv.y - random_value * 0.2));
+        if (random_value < 0.02) {
+            gl_FragColor = texture2D(textureSampler, vec2(uv.x + random_value * 0.8, uv.y - random_value * 0.2));
         } else {
             gl_FragColor = texture2D(textureSampler, uv);
         }

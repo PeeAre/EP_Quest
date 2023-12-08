@@ -16,6 +16,7 @@
   padding: 2rem 12rem;
   display: flex;
   justify-content: center;
+  align-items: center;
   z-index: 4;
 }
 .overlay .text-container {
@@ -25,11 +26,25 @@
   left: 0;
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   padding: 1rem 2rem;
   background-color: rgba(0, 173, 212, 0.1);
   border-radius: 10px;
 }
 .overlay .text-container #printed-text {
+  display: block;
+  height: 100%;
+  margin: 1.5rem 2.5rem;
+  padding: 0 1rem;
+  max-height: 75%;
+  overflow: auto;
   font-size: 24px;
   line-height: 32px;
+}
+.overlay .text-container .buttons-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem 2rem;
 }
