@@ -17,7 +17,7 @@
 mono_crash.*
 
 # Models
-[Mm]odels/
+*.glb
 
 # Build results
 [Dd]ebug/
