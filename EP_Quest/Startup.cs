@@ -2,6 +2,7 @@
 using EP_Quest.Services;
 using EP_Quest.Services.Classes;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace EP_Quest
 {
@@ -22,6 +23,12 @@ namespace EP_Quest
             {
                 options.UseNpgsql(Configuration["ConnectionStrings:PostgreSQL_Connection"]);
             }, ServiceLifetime.Transient);
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.File("log.txt",
+                    outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
+                .CreateLogger();
+
+            services.AddLogging();
             services.AddTransient<IQuestRepository, QuestRepository>();
             services.AddDatabaseService();
             services.AddDropboxService(Configuration);

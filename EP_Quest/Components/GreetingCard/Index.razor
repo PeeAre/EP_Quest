@@ -45,7 +45,8 @@
     private async Task LoadSceneAsync()
     {
         var sceneRemotePath = $"{DService.ScenesRemoteDirectory}/{SceneName}.glb";
-        var sceneLocalPath = Path.Combine(HostingEnvironment.WebRootPath, "models\\" + SceneName + ".glb");
+        var sceneLocalPath = Path.Combine(HostingEnvironment.WebRootPath, "models", SceneName + ".glb");
+
 
         if (!File.Exists(sceneLocalPath))
             await DService.DownloadFileAsync(sceneRemotePath, sceneLocalPath);
