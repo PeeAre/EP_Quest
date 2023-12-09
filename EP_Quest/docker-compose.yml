@@ -6,6 +6,8 @@ services:
       context: .
       dockerfile: Dockerfile
     image: peeare/ep-quest-app:latest
+    volumes:
+      - /home/ep-quest/models:/app/wwwroot/models
     privileged: true
     restart: always
     ports:
