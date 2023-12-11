@@ -1,6 +1,6 @@
 ﻿using EP_Quest.Models;
 using EP_Quest.Services;
-using EP_Quest.Services.Classes;
+using EP_Quest.Services.Common;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -24,7 +24,7 @@ namespace EP_Quest
                 options.UseNpgsql(Configuration["ConnectionStrings:PostgreSQL_Connection"]);
             }, ServiceLifetime.Transient);
             Log.Logger = new LoggerConfiguration()
-                .WriteTo.File("log.txt",
+                .WriteTo.File("Logs/log.txt",
                     outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
                 .CreateLogger();
 

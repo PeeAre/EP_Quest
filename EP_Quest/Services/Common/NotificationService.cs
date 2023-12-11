@@ -1,4 +1,4 @@
-﻿namespace EP_Quest.Services.Classes
+﻿namespace EP_Quest.Services.Common
 {
     public enum NotificationName
     {

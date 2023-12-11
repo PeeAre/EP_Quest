@@ -1,4 +1,4 @@
-﻿using EP_Quest.Services.Classes;
+﻿using EP_Quest.Services.Common;
 
 namespace EP_Quest.Services
 {

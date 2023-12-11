@@ -1,7 +1,7 @@
 ﻿using Dropbox.Api;
 using Serilog;
 
-namespace EP_Quest.Services.Classes
+namespace EP_Quest.Services.Common
 {
     public class DropboxService
     {

@@ -1,7 +1,7 @@
 ﻿using EP_Quest.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace EP_Quest.Services.Classes
+namespace EP_Quest.Services.Common
 {
     public class DatabaseService
     {
