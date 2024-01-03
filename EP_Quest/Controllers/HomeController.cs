@@ -1,5 +1,4 @@
-﻿using EP_Quest.Services.Filters;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace EP_Quest.Controllers
 {

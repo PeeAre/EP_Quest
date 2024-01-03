@@ -5,7 +5,6 @@ namespace EP_Quest.Models
 {
     public class CompletionTime
     {
-        [Key]
         [ForeignKey("Step")]
         public int Id { get; set; }
         public DateTime Start { get; set; } = DateTime.Now.ToUniversalTime();

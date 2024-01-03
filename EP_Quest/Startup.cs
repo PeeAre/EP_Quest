@@ -31,7 +31,6 @@ namespace EP_Quest
             services.AddLogging();
             services.AddTransient<IQuestRepository, QuestRepository>();
             services.AddDatabaseService();
-            services.AddDropboxService(Configuration);
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
             QuestDbContext dbContext, DatabaseService dbService)

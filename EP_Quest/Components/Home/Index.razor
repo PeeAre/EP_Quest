@@ -4,8 +4,7 @@
 <Preloader IsLoading="IsLoading"></Preloader>
 
 <h2 class="home-title">Your gift</h2>
-<a href="@LGenerator.GetPathByAction("Index", "GreetingCard")"><span>Postcard</span></a>
-@* <a href="@LGenerator.GetPathByAction("Index", "Quest")"><span>Quest</span></a> *@
+<a href="@LGenerator.GetPathByAction("Index", "Quest")"><span>Quest</span></a>
 
 @code {
     private bool IsLoading { get; set; } = true;

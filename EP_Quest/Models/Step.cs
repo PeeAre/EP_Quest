@@ -8,9 +8,9 @@ namespace EP_Quest.Models
         [Required]
         public int Number { get; set; }
         [Required]
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
         [Required]
-        public string Description { get; set; }
+        public string Description { get; set; } = string.Empty;
         public string Content { get; set; } = string.Empty;
         public bool IsLocked { get; set; } = true;
         public CompletionTime? CompletionTime { get; set; }
