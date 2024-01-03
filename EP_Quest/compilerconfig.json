@@ -38,5 +38,9 @@
   {
     "outputFile": "wwwroot/css/reset.css",
     "inputFile": "wwwroot/css/reset.scss"
+  },
+  {
+    "outputFile": "Components/Quest/Internal/Character.razor.css",
+    "inputFile": "Components/Quest/Internal/Character.razor.scss"
   }
 ]
