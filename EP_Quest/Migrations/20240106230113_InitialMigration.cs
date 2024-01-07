@@ -11,20 +11,6 @@ namespace EP_Quest.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "CompletionTimes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Start = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Duration = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CompletionTimes", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Instructions",
                 columns: table => new
                 {
@@ -45,26 +31,19 @@ namespace EP_Quest.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Number = table.Column<int>(type: "integer", nullable: false),
+                    Start = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    Duration = table.Column<TimeSpan>(type: "interval", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
                     Content = table.Column<string>(type: "text", nullable: false),
                     IsLocked = table.Column<bool>(type: "boolean", nullable: false),
-                    CompletionTimeId = table.Column<int>(type: "integer", nullable: true)
+                    IsDone = table.Column<bool>(type: "boolean", nullable: false),
+                    IsCurrent = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Steps", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Steps_CompletionTimes_CompletionTimeId",
-                        column: x => x.CompletionTimeId,
-                        principalTable: "CompletionTimes",
-                        principalColumn: "Id");
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Steps_CompletionTimeId",
-                table: "Steps",
-                column: "CompletionTimeId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -74,9 +53,6 @@ namespace EP_Quest.Migrations
 
             migrationBuilder.DropTable(
                 name: "Steps");
-
-            migrationBuilder.DropTable(
-                name: "CompletionTimes");
         }
     }
 }

@@ -1,8 +1,79 @@
-﻿<div class="progress-container">
-    <span>Progress</span>
-    <span>Time until the end of step</span>
-    <span>Help</span>
+﻿@using EP_Quest.Models
+@using EP_Quest.Services.Common
+@using Microsoft.EntityFrameworkCore
+@inject IQuestRepository Repository
+@inject NotificationService NService
+
+<div class="progress-container">
+    <div class="progress-section">
+        <span>Progress</span>
+        <div class="battery">
+            @if (IsInitialized)
+            {
+                @foreach (var step in _steps)
+                {
+                    var stepStyle = "divider";
+
+                    if (step.IsDone)
+                    {
+                        stepStyle += " active-divider";
+                    }
+
+                    <div class="@stepStyle"></div>
+                }
+            }
+        </div>
+    </div>
+    @if (_timeUntilEnd != null)
+    {
+        <div class="time-section">
+            <span>Time left</span>
+            <div>@_timeUntilEnd</div>
+        </div>
+    }
+</div>
+<div class="help-section">
+    <div class="battery"></div>
+    <div class="battery"></div>
+    <div class="battery"></div>
 </div>
 
 @code {
+    private List<Step> _steps;
+    private Step _currentStep;
+    private string? _timeUntilEnd;
+    private Timer? _checkingTimer;
+    private bool IsInitialized = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Init();
+        NService.SubscribeNotification(SomeHandler);
+        IsInitialized = true;
+    }
+    public async Task Init()
+    {
+        _steps = await Repository.Steps.OrderBy(x => x.Number).ToListAsync();
+        _currentStep = _steps.FirstOrDefault(x => !x.IsLocked && !x.IsDone);
+        _checkingTimer = new Timer(ShowTime, null, 0, 1000);
+    }
+    public async Task SomeHandler(NotificationName notificationName)
+    {
+        Repository.UpdateContext();
+        if (notificationName == NotificationName.StepTimeReset)
+            await Init();
+    }
+    private void ShowTime(object _)
+    {
+        _timeUntilEnd = _currentStep.Start != null ? _currentStep.Duration
+            .Subtract(DateTime.Now.ToUniversalTime()
+            .Subtract((DateTime)_currentStep.Start))
+            .ToString(@"hh\:mm\:ss")
+            : null;
+        InvokeAsync(StateHasChanged);
+    }
+    public void Dispose()
+    {
+        _checkingTimer?.Dispose();
+    }
 }

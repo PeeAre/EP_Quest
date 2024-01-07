@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EP_Quest.Migrations
 {
     [DbContext(typeof(QuestDbContext))]
-    [Migration("20231126180042_InitialMigration")]
+    [Migration("20240106230113_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,25 +23,6 @@ namespace EP_Quest.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("EP_Quest.Models.CompletionTime", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("Duration")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("Start")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CompletionTimes");
-                });
 
             modelBuilder.Entity("EP_Quest.Models.Instruction", b =>
                 {
@@ -71,9 +52,6 @@ namespace EP_Quest.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CompletionTimeId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("text");
@@ -81,6 +59,15 @@ namespace EP_Quest.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<TimeSpan>("Duration")
+                        .HasColumnType("interval");
+
+                    b.Property<bool>("IsCurrent")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsDone")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("IsLocked")
                         .HasColumnType("boolean");
@@ -92,20 +79,12 @@ namespace EP_Quest.Migrations
                     b.Property<int>("Number")
                         .HasColumnType("integer");
 
+                    b.Property<DateTime?>("Start")
+                        .HasColumnType("timestamp without time zone");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("CompletionTimeId");
-
                     b.ToTable("Steps");
-                });
-
-            modelBuilder.Entity("EP_Quest.Models.Step", b =>
-                {
-                    b.HasOne("EP_Quest.Models.CompletionTime", "CompletionTime")
-                        .WithMany()
-                        .HasForeignKey("CompletionTimeId");
-
-                    b.Navigation("CompletionTime");
                 });
 #pragma warning restore 612, 618
         }

@@ -6,7 +6,11 @@ namespace EP_Quest.Services
     {
         public static void AddDatabaseService(this IServiceCollection services)
         {
-            services.AddTransient<DatabaseService>();
+            services.AddSingleton<DatabaseService>();
+        }
+        public static void AddNotificationService(this IServiceCollection services)
+        {
+            services.AddSingleton<NotificationService>();
         }
     }
 }

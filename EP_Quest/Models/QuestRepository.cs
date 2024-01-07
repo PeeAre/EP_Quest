@@ -1,14 +1,22 @@
-﻿namespace EP_Quest.Models
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace EP_Quest.Models
 {
     public class QuestRepository : IQuestRepository
     {
-        private QuestDbContext context;
+        private readonly QuestDbContext _context;
         public QuestRepository(QuestDbContext context)
         {
-            this.context = context;
+            _context = context;
         }
-        public IQueryable<CompletionTime> CompletionTimes => context.CompletionTimes;
-        public IQueryable<Instruction> Instructions => context.Instructions;
-        public IQueryable<Step> Steps => context.Steps;
+        public IQueryable<Instruction> Instructions => _context.Instructions;
+        public IQueryable<Step> Steps => _context.Steps;
+        public async Task SaveChangesAsync() => await _context.SaveChangesAsync();
+        public void UpdateContext() => _context.ChangeTracker.Entries()
+            .ToList().ForEach(e => e.Reload());
+        public void Dispose()
+        {
+            _context.Dispose();
+        }
     }
 }

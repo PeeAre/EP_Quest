@@ -1,5 +1,6 @@
 ﻿using EP_Quest.Models;
 using Microsoft.EntityFrameworkCore;
+using NpgsqlTypes;
 
 namespace EP_Quest.Services.Common
 {
@@ -48,52 +49,45 @@ namespace EP_Quest.Services.Common
                 dbContext.Steps.AddRange(
                     new Step()
                     {
-                        Name = "Step one",
                         Number = 1,
+                        Duration = new TimeSpan(24, 0, 0),
+                        Name = "Step one",
                         Description = "Description of the first Step",
-                        IsLocked = false
+                        Content = "Content of the first Step",
+                        IsLocked = false,
+                        IsCurrent = true
                     },
                     new Step()
                     {
-                        Name = "Step two",
                         Number = 2,
-                        Description = "Description of the second Step"
+                        Duration = new TimeSpan(24, 0, 0),
+                        Name = "Step two",
+                        Description = "Description of the second Step",
+                        Content = "Content of the second Step",
                     },
                     new Step()
                     {
                         Name = "Step three",
+                        Duration = new TimeSpan(24, 0, 0),
                         Number = 3,
-                        Description = "Description of the third Step"
+                        Description = "Description of the third Step",
+                        Content = "Content of the third Step"
                     },
                     new Step()
                     {
                         Name = "Step four",
+                        Duration = new TimeSpan(24, 0, 0),
                         Number = 4,
-                        Description = "Description of the fourth Step"
+                        Description = "Description of the fourth Step",
+                        Content = "Content of the fourth Step"
                     },
                     new Step()
                     {
                         Name = "Step five",
+                        Duration = new TimeSpan(24, 0, 0),
                         Number = 5,
-                        Description = "Description of the fifth Step"
-                    },
-                    new Step()
-                    {
-                        Name = "Step six",
-                        Number = 6,
-                        Description = "Description of the sixth Step"
-                    },
-                    new Step()
-                    {
-                        Name = "Step seven",
-                        Number = 7,
-                        Description = "Description of the seventh Step"
-                    },
-                    new Step()
-                    {
-                        Name = "Step eight",
-                        Number = 8,
-                        Description = "Description of the eighth Step"
+                        Description = "Description of the fifth Step",
+                        Content = "Content of the fifth Step"
                     });
             }
             dbContext.SaveChanges();

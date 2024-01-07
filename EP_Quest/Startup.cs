@@ -27,10 +27,11 @@ namespace EP_Quest
                 .WriteTo.File("Logs/log.txt",
                     outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
                 .CreateLogger();
-
             services.AddLogging();
             services.AddTransient<IQuestRepository, QuestRepository>();
             services.AddDatabaseService();
+            services.AddNotificationService();
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
             QuestDbContext dbContext, DatabaseService dbService)
