@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace EP_Quest.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class InitMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -38,7 +38,7 @@ namespace EP_Quest.Migrations
                     Content = table.Column<string>(type: "text", nullable: false),
                     IsLocked = table.Column<bool>(type: "boolean", nullable: false),
                     IsDone = table.Column<bool>(type: "boolean", nullable: false),
-                    IsCurrent = table.Column<bool>(type: "boolean", nullable: false)
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {

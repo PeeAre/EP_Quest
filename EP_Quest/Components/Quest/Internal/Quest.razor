@@ -7,7 +7,7 @@
 <div class="quest-container">
     @if (IsInitialized)
     {
-        @_currentStep.Content
+        @Content
     }
 </div>
 <div class="buttons-container">
@@ -18,34 +18,43 @@
 @code {
     [Parameter]
     public EventCallback FromQuestToDashboard { get; set; }
-    private Step _currentStep { get; set; }
-    private bool IsInitialized = false;
+    private string Content { get; set; } = string.Empty;
+    private bool IsInitialized { get; set; } = false;
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        await Init();
+        Init();
+        NService.SubscribeNotification(HandleContent);
     }
-    public async Task Init()
+    public void Init()
     {
-        _currentStep = await Repository.Steps.FirstOrDefaultAsync(x => x.IsCurrent);
         IsInitialized = true;
+    }
+    public async Task HandleContent(NotificationName notificationName, object? obj = null)
+    {
+        if (notificationName == NotificationName.UpdateQuestContent)
+        {
+            Content = ((Step)obj).Content;
+            Repository.UpdateContext();
+            Init();
+            await InvokeAsync(StateHasChanged);
+        }
     }
     private async Task Done()
     {
-        var steps = Repository.Steps;
-        var stepNumber = steps.FirstOrDefault(x => x.IsCurrent)?.Number + 1;
+        var nextStepNumber = Repository.Steps.FirstOrDefault(x => x.IsActive)!.Number + 1;
 
-        if (stepNumber == null)
-            throw new Exception();
-
-        await steps.Where(x => x.IsCurrent || x.Number == stepNumber).ForEachAsync(x =>
+        await Repository.Steps.Where(x => x.IsActive)
+            .ForEachAsync(x =>
         {
-            x.IsCurrent = !x.IsCurrent;
-            x.IsLocked = false;
-        });
-        await steps.Where(x => x.Number == stepNumber - 1).ForEachAsync(x =>
-        {
+            x.IsActive = false;
             x.IsDone = true;
+            x.Start = null;
+        });
+        await Repository.Steps.Where(x => x.Number == nextStepNumber)
+            .ForEachAsync(x =>
+        {
+            x.IsLocked = false;
             x.Start = null;
         });
         await Repository.SaveChangesAsync();

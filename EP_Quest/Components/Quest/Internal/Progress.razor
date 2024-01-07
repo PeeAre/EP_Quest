@@ -33,9 +33,8 @@
     }
 </div>
 <div class="help-section">
-    <div class="battery"></div>
-    <div class="battery"></div>
-    <div class="battery"></div>
+    <div class="clock"></div>
+    <div class="phone"></div>
 </div>
 
 @code {
@@ -57,15 +56,18 @@
         _currentStep = _steps.FirstOrDefault(x => !x.IsLocked && !x.IsDone);
         _checkingTimer = new Timer(ShowTime, null, 0, 1000);
     }
-    public async Task SomeHandler(NotificationName notificationName)
+    public async Task SomeHandler(NotificationName notificationName, object? obj = null)
     {
         Repository.UpdateContext();
+
         if (notificationName == NotificationName.StepTimeReset)
             await Init();
+
+        await InvokeAsync(StateHasChanged);
     }
     private void ShowTime(object _)
     {
-        _timeUntilEnd = _currentStep.Start != null ? _currentStep.Duration
+        _timeUntilEnd = _currentStep == null ? null : _currentStep.IsActive ? _currentStep.Duration
             .Subtract(DateTime.Now.ToUniversalTime()
             .Subtract((DateTime)_currentStep.Start))
             .ToString(@"hh\:mm\:ss")

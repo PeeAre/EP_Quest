@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EP_Quest.Migrations
 {
     [DbContext(typeof(QuestDbContext))]
-    [Migration("20240106230113_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20240107123731_InitMigration")]
+    partial class InitMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -63,7 +63,7 @@ namespace EP_Quest.Migrations
                     b.Property<TimeSpan>("Duration")
                         .HasColumnType("interval");
 
-                    b.Property<bool>("IsCurrent")
+                    b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
                     b.Property<bool>("IsDone")

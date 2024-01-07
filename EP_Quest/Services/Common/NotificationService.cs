@@ -3,20 +3,21 @@
     public enum NotificationName
     {
         StepTimeReset,
-        UnlockNextStep
+        UnlockNextStep,
+        UpdateQuestContent
     }
     public class NotificationService
     {
-        public delegate Task NotificationHandler(NotificationName notificationName);
+        public delegate Task NotificationHandler(NotificationName notificationName, object? obj = null);
         public event NotificationHandler? Notify;
 
         public void SubscribeNotification(NotificationHandler handler)
         {
             Notify += handler;
         }
-        public void ReleaseNotification(NotificationName notificationName)
+        public void ReleaseNotification(NotificationName notificationName, object? obj = null)
         {
-            Notify?.Invoke(notificationName);
+            Notify?.Invoke(notificationName, obj);
 
             //if (Notify != null)
             //{

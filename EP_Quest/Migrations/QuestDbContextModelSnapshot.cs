@@ -61,7 +61,7 @@ namespace EP_Quest.Migrations
                     b.Property<TimeSpan>("Duration")
                         .HasColumnType("interval");
 
-                    b.Property<bool>("IsCurrent")
+                    b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
                     b.Property<bool>("IsDone")

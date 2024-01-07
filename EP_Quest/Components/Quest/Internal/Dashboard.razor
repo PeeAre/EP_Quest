@@ -4,59 +4,54 @@
 @inject IQuestRepository Repository
 @inject NotificationService NService
 
-<div class="cards">
-    @if (IsInitialized)
+<div class="steps-container">
+    @if (_isInitialized)
     {
-        @foreach (var step in _steps)
+        @foreach (var step in Steps)
         {
-            <div class="card @step.LockIdentifier @step.Selection"
+            <div class="step @step.StatusIdentifier @step.Selection"
                  @onmouseover="() => HoverCard(true, step)"
                  @onmouseout="() => HoverCard(false)"
-                 @onclick="() => SelectCard(step.GetNumber())">
-                @step.GetName()
+                 @onclick="() => SelectCard(step.Get().Number)">
+                @step.Get().Name
             </div>
         }
     }
-
 </div>
 <div class="description-section">
     <span class="description-text">
-        @_stepDescription
+        @StepDescription
     </span>
     <div class="buttons-container">
         <div class="nav-button" @onclick="ToInstructions">Instructions</div>
-        <div class="nav-button" style="visibility: @_playButtonVisibility" @onclick="PlayStep">Play</div>
+        @if (IsPlayButtonVisible)
+        {
+            <div class="nav-button" @onclick="PlayStep">Play</div>
+        }
     </div>
 </div>
 
 @code {
-    private bool IsInitialized = false;
+    private bool _isInitialized = false;
 
     struct Step
     {
-        public string LockIdentifier;
-        public string Selection = string.Empty;
+        public string StatusIdentifier { get; set; }
+        public string Selection { get; set; } = string.Empty;
 
-        private Models.Step _step;
+        private Models.Step Model { get; set; }
 
 
-        public Step(Models.Step step)
+        public Step(Models.Step model)
         {
-            _step = step;
-            LockIdentifier = _step.IsLocked ? "lock" : "unlock";
+            Model = model;
+            StatusIdentifier = Model.IsDone ? "done" : Model.IsLocked ? "lock" : "unlock";
         }
-        public Step(Models.Step step, string selection)
+        public Step(Models.Step model, string selection) : this(model)
         {
-            _step = step;
-            LockIdentifier = _step.IsLocked ? "lock" : "unlock";
             Selection = selection;
         }
-        public bool IsLocked() => _step.IsLocked;
-        public Models.Step Get() => _step;
-        public string GetName() => _step.Name;
-        public int GetNumber() => _step.Number;
-        public string GetDescription() => _step.Description;
-        public string GetContent() => _step.Content;
+        public Models.Step Get() => Model;
     }
 
     [Parameter]
@@ -64,94 +59,94 @@
     [Parameter]
     public EventCallback ToSelectedStep { get; set; }
 
-    private List<Step> _steps;
-    private string _stepDescription = string.Empty;
-    private Step _selectedStep = default;
-    private string _playButtonVisibility = "hidden";
+    private List<Step> Steps { get; set; }
+    private string StepDescription { get; set; } = string.Empty;
+    private Step SelectedStep { get; set; } = default;
+    private bool IsPlayButtonVisible { get; set; } = false;
 
 
     protected override async Task OnInitializedAsync()
     {
         await Init();
-        NService.SubscribeNotification(SomeHandler);
-        IsInitialized = true;
-    }
-    public async Task SomeHandler(NotificationName notificationName)
-    {
-        Repository.UpdateContext();
-
-        if (notificationName == NotificationName.UnlockNextStep)
-            await Init();
-
-        await InvokeAsync(StateHasChanged);
+        NService.SubscribeNotification(HandleRefresh);
+        _isInitialized = true;
     }
     public async Task Init()
     {
-        _stepDescription = string.Empty;
-        _selectedStep = default;
-        _playButtonVisibility = "hidden";
-        _steps = await Repository.Steps.OrderBy(x => x.Number).Select(x => new Step(x)).ToListAsync();
+        StepDescription = string.Empty;
+        SelectedStep = default;
+        IsPlayButtonVisible = false;
+        Steps = await Repository.Steps.OrderBy(x => x.Number).Select(x => new Step(x)).ToListAsync();
+    }
+    public async Task HandleRefresh(NotificationName notificationName, object? obj = null)
+    {
+        if (notificationName == NotificationName.UnlockNextStep)
+        {
+            Repository.UpdateContext();
+            await Init();
+        }
+
+        await InvokeAsync(StateHasChanged);
     }
     private void HoverCard(bool isOver, Step step = default)
     {
         if (isOver)
         {
-            _stepDescription = step.IsLocked() ? "***" : step.GetDescription();
+            StepDescription = step.Get().IsLocked ? "***" : step.Get().Description;
             return;
         }
 
-        _stepDescription = string.Empty;
+        StepDescription = string.Empty;
 
-        for (var i = 0; i < _steps.Count; i++)
-            if (_steps[i].Selection != string.Empty)
-                _stepDescription = _steps[i].IsLocked() ? string.Empty : _steps[i].GetDescription();
+        for (var i = 0; i < Steps.Count; i++)
+            if (Steps[i].Selection != string.Empty)
+                StepDescription = Steps[i].Get().IsLocked ? string.Empty : Steps[i].Get().Description;
     }
     private void SelectCard(int stepNumber)
     {
-        var mask = 1;
+        if (Steps.Any(x => x.Get().Number == stepNumber && x.Get().IsLocked))
+            return;
 
-        for (int i = 0; i < _steps.Count; i++)
+        for (int i = 0; i < Steps.Count(); i++)
         {
-            if (_steps[i].Selection != string.Empty)
-            {
-                _steps[i] = new Step(_steps[i].Get(), string.Empty);
-                _selectedStep = default;
-                mask <<= 2;
-                continue;
-            }
+            if (Steps[i].Selection != string.Empty)
+                Steps[i] = new Step(Steps[i].Get(), string.Empty);
 
-            if (_steps[i].GetNumber() == stepNumber)
+            if (Steps[i].Get().Number == stepNumber)
             {
-                _steps[i] = new Step(_steps[i].Get(), "selected-step");
-                _selectedStep = _steps[i];
-                _playButtonVisibility = _selectedStep.IsLocked() ? "hidden" : "visible";
-                mask <<= 3;
-            }
-        }
+                if (!SelectedStep.Equals(default(Step)))
+                {
+                    if (SelectedStep.Get().Number == stepNumber)
+                    {
+                        SelectedStep = default;
+                        IsPlayButtonVisible = false;
+                        break;
+                    }
+                }
 
-        if (mask == 4)
-        {
-            _playButtonVisibility = "hidden";
-            _selectedStep = default;
+                if (Steps[i].Get().IsDone)
+                    IsPlayButtonVisible = false;
+                else
+                    IsPlayButtonVisible = true;
+
+                Steps[i] = SelectedStep = new Step(Steps[i].Get(), "selected-step");
+            }
         }
     }
     private async Task PlayStep()
     {
-        var currentStep = Repository.Steps.Where(x => x.Number == _selectedStep.GetNumber());
-
-        if (currentStep.FirstOrDefault() == null)
-            throw new Exception();
-
-        await ToSelectedStep.InvokeAsync();
-
-        if (currentStep.FirstOrDefault().Start != null)
-            return;
-
-        await currentStep.ForEachAsync(x =>
-        {
-            x.Start = DateTime.Now.ToUniversalTime();
-        });
+        await Repository.Steps.Where(x => x.Number == SelectedStep.Get().Number)
+            .ForEachAsync(x =>
+            {
+                if (!x.IsActive)
+                {
+                    x.IsActive = true;
+                    x.Start = DateTime.Now.ToUniversalTime();
+                }
+            });
         await Repository.SaveChangesAsync();
+        await ToSelectedStep.InvokeAsync();
         NService.ReleaseNotification(NotificationName.StepTimeReset);
+        NService.ReleaseNotification(NotificationName.UpdateQuestContent, SelectedStep.Get());
     }
 }

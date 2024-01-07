@@ -54,8 +54,7 @@ namespace EP_Quest.Services.Common
                         Name = "Step one",
                         Description = "Description of the first Step",
                         Content = "Content of the first Step",
-                        IsLocked = false,
-                        IsCurrent = true
+                        IsLocked = false
                     },
                     new Step()
                     {

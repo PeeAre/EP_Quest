@@ -23,6 +23,6 @@ namespace EP_Quest.Models
         [Required]
         public bool IsDone { get; set; } = false;
         [Required]
-        public bool IsCurrent { get; set; } = false;
+        public bool IsActive { get; set; } = false;
     }
 }

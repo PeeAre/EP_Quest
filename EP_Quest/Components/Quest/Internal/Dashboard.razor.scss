@@ -1,11 +1,11 @@
-﻿.cards {
+﻿.steps-container {
     margin: 1.5rem 0.5rem;
     padding: 0 1rem;
     overflow: auto;
     display: grid;
     gap: 1rem;
 
-    .card {
+    .step {
         background: rgba(1, 15, 61, 0.2);
         color: white;
         height: 8rem;
@@ -27,7 +27,6 @@
         grid-template-columns: repeat(3, 1fr);
     }
 }
-
 
 .lock {
     &:before {
@@ -55,6 +54,21 @@
         width: 120px;
         height: 120px;
         background-image: url('images/unlock.svg');
+        background-size: 120px 120px;
+    }
+}
+
+.done {
+    &:before {
+        z-index: -1;
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 120px;
+        height: 120px;
+        background-image: url('images/done.svg');
         background-size: 120px 120px;
     }
 }
