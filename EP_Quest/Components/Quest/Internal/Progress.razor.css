@@ -1,5 +1,7 @@
 ﻿.progress-container {
+  width: auto;
   height: 100%;
+  margin: 0 0.5rem;
   display: flex;
   flex-direction: column;
 }
@@ -43,7 +45,8 @@
 }
 
 .help-section {
-  margin: 0 1rem;
+  width: auto;
+  margin: 0 0.5rem;
   display: flex;
   justify-content: space-between;
   gap: 3rem;
@@ -52,6 +55,11 @@
   position: relative;
   width: 120px;
   height: 120px;
+}
+.help-section .clock:hover {
+  box-sizing: border-box;
+  filter: brightness(0) saturate(100%) invert(71%) sepia(77%) saturate(4504%) hue-rotate(152deg) brightness(90%) contrast(104%);
+  cursor: pointer;
 }
 .help-section .clock:before {
   z-index: 8;
@@ -66,8 +74,13 @@
 }
 .help-section .phone {
   position: relative;
-  width: 120px;
-  height: 120px;
+  width: 108px;
+  height: 108px;
+}
+.help-section .phone:hover {
+  box-sizing: border-box;
+  filter: brightness(0) saturate(100%) invert(71%) sepia(77%) saturate(4504%) hue-rotate(152deg) brightness(90%) contrast(104%);
+  cursor: pointer;
 }
 .help-section .phone:before {
   z-index: 8;
