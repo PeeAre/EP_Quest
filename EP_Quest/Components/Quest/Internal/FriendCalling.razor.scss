@@ -1,0 +1,22 @@
+﻿.friend-calling-container {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 4rem 0 2rem 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .phone-number {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        word-wrap: normal;
+        line-height: 40px;
+        writing-mode: vertical-rl;
+    }
+
+    .nav-button {
+        margin: 0 auto;
+    }
+}

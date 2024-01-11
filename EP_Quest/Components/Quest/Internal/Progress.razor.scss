@@ -1,15 +1,16 @@
 ﻿.progress-container {
-    width: auto;
+    width: 100%;
     height: 100%;
-    margin: 0 .5rem;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
 
     .progress-section {
         display: flex;
         justify-content: space-between;
         align-items: center;
         height: 4rem;
+        padding: 1rem;
 
         .battery {
             height: 2rem;
@@ -48,60 +49,61 @@
         align-items: center;
         height: 4rem;
     }
-}
 
-.help-section {
-    width: auto;
-    margin: 0 .5rem;
-    display: flex;
-    justify-content: space-between;
-    gap: 3rem;
+    .help-section {
+        width: auto;
+        margin: 0 .5rem;
+        display: flex;
+        justify-content: space-between;
+        gap: 3rem;
+        padding: 1rem;
 
-    .clock {
-        position: relative;
-        width: 120px;
-        height: 120px;
-
-        &:hover {
-            box-sizing: border-box;
-            filter: brightness(0) saturate(100%) invert(71%) sepia(77%) saturate(4504%) hue-rotate(152deg) brightness(90%) contrast(104%);
-            cursor: pointer;
-        }
-
-        &:before {
-            z-index: 8;
-            content: "";
-            position: absolute;
+        .clock {
+            position: relative;
             width: 120px;
             height: 120px;
-            top: 0;
-            left: 0;
-            background-image: url('images/clock.svg');
-            background-size: 120px 120px;
+
+            &:hover {
+                box-sizing: border-box;
+                filter: brightness(0) saturate(100%) invert(60%) sepia(100%) saturate(329%) hue-rotate(145deg) brightness(83%) contrast(92%);
+                cursor: pointer;
+            }
+
+            &:before {
+                z-index: 8;
+                content: "";
+                position: absolute;
+                width: 120px;
+                height: 120px;
+                top: 0;
+                left: 0;
+                background-image: url('images/clock.svg');
+                background-size: 120px 120px;
+            }
         }
-    }
 
-    .phone {
-        position: relative;
-        width: 108px;
-        height: 108px;
-
-        &:hover {
-            box-sizing: border-box;
-            filter: brightness(0) saturate(100%) invert(71%) sepia(77%) saturate(4504%) hue-rotate(152deg) brightness(90%) contrast(104%);
-            cursor: pointer;
-        }
-
-        &:before {
-            z-index: 8;
-            content: "";
-            position: absolute;
+        .phone {
+            position: relative;
             width: 108px;
             height: 108px;
-            top: 5px;
-            left: 0;
-            background-image: url('images/phone.svg');
-            background-size: 108px 108px;
+
+            &:hover {
+                box-sizing: border-box;
+                filter: brightness(0) saturate(100%) invert(60%) sepia(100%) saturate(329%) hue-rotate(145deg) brightness(83%) contrast(92%);
+                cursor: pointer;
+            }
+
+            &:before {
+                z-index: 8;
+                content: "";
+                position: absolute;
+                width: 108px;
+                height: 108px;
+                top: 5px;
+                left: 0;
+                background-image: url('images/phone.svg');
+                background-size: 108px 108px;
+            }
         }
     }
 }

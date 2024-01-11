@@ -1,0 +1,10 @@
+﻿<div class="friend-calling-container">
+    <div class="phone-number">My phone number: +48793179662</div>
+    <button class="nav-button" @onclick="ToProgress">Return</button>
+</div>
+
+
+@code {
+    [Parameter]
+    public EventCallback ToProgress { get; set; }
+}

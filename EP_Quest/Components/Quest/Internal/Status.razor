@@ -1,0 +1,21 @@
+﻿<div class="@_side">
+    <div class="progress-side">
+        <Progress ToFriendCalling="ToFriendCalling"></Progress>
+    </div>
+    <div class="friend-calling-side">
+        <FriendCalling ToProgress="ToProgress"></FriendCalling>
+    </div>
+</div>
+
+@code {
+    private string _side = "front-side";
+
+    private void ToProgress()
+    {
+        _side = "front-side";
+    }
+    private void ToFriendCalling()
+    {
+        _side = "back-side";
+    }
+}

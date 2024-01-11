@@ -34,5 +34,13 @@
   {
     "outputFile": "Components/Shared/Preloader.razor.css",
     "inputFile": "Components/Shared/Preloader.razor.scss"
+  },
+  {
+    "outputFile": "Components/Quest/Internal/Status.razor.css",
+    "inputFile": "Components/Quest/Internal/Status.razor.scss"
+  },
+  {
+    "outputFile": "Components/Quest/Internal/FriendCalling.razor.css",
+    "inputFile": "Components/Quest/Internal/FriendCalling.razor.scss"
   }
 ]

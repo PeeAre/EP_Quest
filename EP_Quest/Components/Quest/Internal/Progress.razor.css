@@ -1,15 +1,16 @@
 ﻿.progress-container {
-  width: auto;
+  width: 100%;
   height: 100%;
-  margin: 0 0.5rem;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 .progress-container .progress-section {
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 4rem;
+  padding: 1rem;
 }
 .progress-container .progress-section .battery {
   height: 2rem;
@@ -43,25 +44,25 @@
   align-items: center;
   height: 4rem;
 }
-
-.help-section {
+.progress-container .help-section {
   width: auto;
   margin: 0 0.5rem;
   display: flex;
   justify-content: space-between;
   gap: 3rem;
+  padding: 1rem;
 }
-.help-section .clock {
+.progress-container .help-section .clock {
   position: relative;
   width: 120px;
   height: 120px;
 }
-.help-section .clock:hover {
+.progress-container .help-section .clock:hover {
   box-sizing: border-box;
-  filter: brightness(0) saturate(100%) invert(71%) sepia(77%) saturate(4504%) hue-rotate(152deg) brightness(90%) contrast(104%);
+  filter: brightness(0) saturate(100%) invert(60%) sepia(100%) saturate(329%) hue-rotate(145deg) brightness(83%) contrast(92%);
   cursor: pointer;
 }
-.help-section .clock:before {
+.progress-container .help-section .clock:before {
   z-index: 8;
   content: "";
   position: absolute;
@@ -72,17 +73,17 @@
   background-image: url("images/clock.svg");
   background-size: 120px 120px;
 }
-.help-section .phone {
+.progress-container .help-section .phone {
   position: relative;
   width: 108px;
   height: 108px;
 }
-.help-section .phone:hover {
+.progress-container .help-section .phone:hover {
   box-sizing: border-box;
-  filter: brightness(0) saturate(100%) invert(71%) sepia(77%) saturate(4504%) hue-rotate(152deg) brightness(90%) contrast(104%);
+  filter: brightness(0) saturate(100%) invert(60%) sepia(100%) saturate(329%) hue-rotate(145deg) brightness(83%) contrast(92%);
   cursor: pointer;
 }
-.help-section .phone:before {
+.progress-container .help-section .phone:before {
   z-index: 8;
   content: "";
   position: absolute;

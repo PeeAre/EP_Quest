@@ -23,18 +23,18 @@
                 }
             }
         </div>
+        @if (_timeUntilEnd != null)
+        {
+            <div class="time-section">
+                <span>Time left</span>
+                <div>@_timeUntilEnd</div>
+            </div>
+        }
     </div>
-    @if (_timeUntilEnd != null)
-    {
-        <div class="time-section">
-            <span>Time left</span>
-            <div>@_timeUntilEnd</div>
-        </div>
-    }
-</div>
-<div class="help-section">
-    <div class="clock"></div>
-    <div class="phone"></div>
+    <div class="help-section">
+        <div class="clock"></div>
+        <div class="phone" @onclick="ToFriendCalling"></div>
+    </div>
 </div>
 
 @code {
@@ -44,10 +44,13 @@
     private Timer? _checkingTimer;
     private bool IsInitialized = false;
 
+    [Parameter]
+    public EventCallback ToFriendCalling { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
         await Init();
-        NService.SubscribeNotification(SomeHandler);
+        NService.SubscribeNotification(TimeResetHandle);
         IsInitialized = true;
     }
     public async Task Init()
@@ -56,7 +59,8 @@
         _currentStep = _steps.FirstOrDefault(x => !x.IsLocked && !x.IsDone);
         _checkingTimer = new Timer(ShowTime, null, 0, 1000);
     }
-    public async Task SomeHandler(NotificationName notificationName, object? obj = null)
+
+    public async Task TimeResetHandle(NotificationName notificationName, object? obj = null)
     {
         Repository.UpdateContext();
 
