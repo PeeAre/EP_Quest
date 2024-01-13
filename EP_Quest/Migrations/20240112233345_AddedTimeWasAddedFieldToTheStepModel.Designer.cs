@@ -3,6 +3,7 @@ using System;
 using EP_Quest.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EP_Quest.Migrations
 {
     [DbContext(typeof(QuestDbContext))]
-    partial class QuestDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240112233345_AddedTimeWasAddedFieldToTheStepModel")]
+    partial class AddedTimeWasAddedFieldToTheStepModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

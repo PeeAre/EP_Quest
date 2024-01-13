@@ -5,23 +5,25 @@
 @inject NotificationService NService
 
 <div class="progress-container">
-    <div class="progress-section">
-        <span>Progress</span>
-        <div class="battery">
-            @if (IsInitialized)
-            {
-                @foreach (var step in _steps)
+    <div class="info-container">
+        <div class="progress-section">
+            <span>Progress</span>
+            <div class="battery">
+                @if (IsInitialized)
                 {
-                    var stepStyle = "divider";
-
-                    if (step.IsDone)
+                    @foreach (var step in _steps)
                     {
-                        stepStyle += " active-divider";
-                    }
+                        var stepStyle = "divider";
 
-                    <div class="@stepStyle"></div>
+                        if (step.IsDone)
+                        {
+                            stepStyle += " active-divider";
+                        }
+
+                        <div class="@stepStyle"></div>
+                    }
                 }
-            }
+            </div>
         </div>
         @if (_timeUntilEnd != null)
         {
@@ -32,7 +34,15 @@
         }
     </div>
     <div class="help-section">
-        <div class="clock"></div>
+        @if (_timeUntilEnd != null && !_currentStep.TimeWasAdded)
+        {
+            _isTimeAddingActive = "active";
+        }
+        else
+        {
+            _isTimeAddingActive = null;
+        }
+        <div class="clock @_isTimeAddingActive" @onclick="AddStepTime"></div>
         <div class="phone" @onclick="ToFriendCalling"></div>
     </div>
 </div>
@@ -41,6 +51,7 @@
     private List<Step> _steps;
     private Step _currentStep;
     private string? _timeUntilEnd;
+    private string? _isTimeAddingActive;
     private Timer? _checkingTimer;
     private bool IsInitialized = false;
 
@@ -60,6 +71,18 @@
         _checkingTimer = new Timer(ShowTime, null, 0, 1000);
     }
 
+    public async Task AddStepTime()
+    {
+        await Repository.Steps.Where(x => !x.IsLocked && !x.IsDone)
+            .ForEachAsync(x =>
+            {
+                x.Duration = x.Duration.Add(new System.TimeSpan(4, 0, 0));
+                x.TimeWasAdded = true;
+            });
+        await Repository.SaveChangesAsync();
+        Repository.UpdateContext();
+    }
+
     public async Task TimeResetHandle(NotificationName notificationName, object? obj = null)
     {
         Repository.UpdateContext();
@@ -74,7 +97,7 @@
         _timeUntilEnd = _currentStep == null ? null : _currentStep.IsActive ? _currentStep.Duration
             .Subtract(DateTime.Now.ToUniversalTime()
             .Subtract((DateTime)_currentStep.Start))
-            .ToString(@"hh\:mm\:ss")
+            .ToString(@"dd\:hh\:mm\:ss")
             : null;
         InvokeAsync(StateHasChanged);
     }

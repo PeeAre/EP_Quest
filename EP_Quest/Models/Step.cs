@@ -13,6 +13,8 @@ namespace EP_Quest.Models
         [Column(TypeName = "interval")]
         public TimeSpan Duration { get; set; }
         [Required]
+        public bool TimeWasAdded { get; set; } = false;
+        [Required]
         public string Name { get; set; } = string.Empty;
         [Required]
         public string Description { get; set; } = string.Empty;
