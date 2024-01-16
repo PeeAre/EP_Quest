@@ -1,22 +1,27 @@
 ﻿@using EP_Quest.Models
 @using EP_Quest.Services.Common
 @using Microsoft.EntityFrameworkCore
+@using System.Text.RegularExpressions
 @inject IQuestRepository Repository
 @inject NotificationService NService
+@inject IConfiguration Configuration;
 
 <div class="steps-container">
-    @if (_isInitialized)
-    {
-        @foreach (var step in Steps)
+    <div class="steps-wrapper">
+        @if (_isInitialized)
         {
-            <div class="step @step.StatusIdentifier @step.Selection"
-                 @onmouseover="() => HoverCard(true, step)"
-                 @onmouseout="() => HoverCard(false)"
-                 @onclick="() => SelectCard(step.Get().Number)">
-                @step.Get().Name
-            </div>
+            @foreach (var step in Steps)
+            {
+                <div class="step @step.StatusIdentifier @step.Selection"
+                     @onmouseover="() => HoverCard(true, step)"
+                     @onmouseout="() => HoverCard(false)"
+                     @onclick="() => SelectCard(step.Get().Number)">
+                    @step.Get().Name
+                </div>
+            }
         }
-    }
+    </div>
+    <div class="result-phrase">@_resultPhrase</div>
 </div>
 <div class="description-section">
     <span class="description-text">
@@ -33,6 +38,7 @@
 
 @code {
     private bool _isInitialized = false;
+    private string _resultPhrase;
 
     struct Step
     {
@@ -63,7 +69,7 @@
     private string StepDescription { get; set; } = string.Empty;
     private Step SelectedStep { get; set; } = default;
     private bool IsPlayButtonVisible { get; set; } = false;
-
+    private string[] _phraseArray = new[] { "Be like", "a rose,", "beautiful", "demon" };
 
     protected override async Task OnInitializedAsync()
     {
@@ -77,6 +83,24 @@
         SelectedStep = default;
         IsPlayButtonVisible = false;
         Steps = await Repository.Steps.OrderBy(x => x.Number).Select(x => new Step(x)).ToListAsync();
+        var isDoneIndex = 0;
+
+        foreach (var step in Steps)
+        {
+            if (step.Get().IsDone)
+                isDoneIndex++;
+        }
+
+        var startSegment = new ArraySegment<string>(_phraseArray, 0, isDoneIndex);
+        var startSting = string.Join(" ", startSegment);
+        var endSegment = new ArraySegment<string>(_phraseArray, isDoneIndex,
+            _phraseArray.Length - isDoneIndex);
+        var endString = string.Join(" ", endSegment);
+        string pattern = @"([A-Z]|[a-z])";
+        string replacement = "_";
+        Regex rgx = new Regex(pattern);
+        endString = rgx.Replace(endString, replacement);
+        _resultPhrase = string.Join(" ", startSting, endString);
     }
     public async Task HandleRefresh(NotificationName notificationName, object? obj = null)
     {

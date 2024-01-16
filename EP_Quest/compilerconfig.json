@@ -24,10 +24,6 @@
     "inputFile": "Components/Quest/Internal/Progress.razor.scss"
   },
   {
-    "outputFile": "Components/Quest/Internal/Quest.razor.css",
-    "inputFile": "Components/Quest/Internal/Quest.razor.scss"
-  },
-  {
     "outputFile": "Components/Quest/Index.razor.css",
     "inputFile": "Components/Quest/Index.razor.scss"
   },
@@ -42,5 +38,9 @@
   {
     "outputFile": "Components/Quest/Internal/FriendCalling.razor.css",
     "inputFile": "Components/Quest/Internal/FriendCalling.razor.scss"
+  },
+  {
+    "outputFile": "Components/Quest/Internal/Step.razor.css",
+    "inputFile": "Components/Quest/Internal/Step.razor.scss"
   }
 ]

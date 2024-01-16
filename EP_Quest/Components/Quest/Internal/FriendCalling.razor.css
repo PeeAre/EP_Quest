@@ -2,7 +2,7 @@
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  padding: 4rem 0 2rem 0;
+  padding: 4rem 0 2rem 2rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -16,5 +16,5 @@
   writing-mode: vertical-rl;
 }
 .friend-calling-container .nav-button {
-  margin: 0 auto;
+  width: 8rem;
 }

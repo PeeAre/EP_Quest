@@ -19,6 +19,10 @@ mono_crash.*
 # Models
 *.glb
 
+#Certificates
+4yana.pl.certificate.pem
+4yana.pl.key.txt
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
