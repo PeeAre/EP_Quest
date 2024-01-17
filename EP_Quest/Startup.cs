@@ -19,6 +19,8 @@ namespace EP_Quest
             services.AddRazorPages().AddRazorRuntimeCompilation();
             services.AddServerSideBlazor();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            services.AddHttpContextAccessor();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddDbContext<QuestDbContext>(options =>
             {
                 options.UseNpgsql(Configuration["ConnectionStrings:PostgreSQL_Connection"]);

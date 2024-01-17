@@ -1,21 +1,57 @@
-﻿@using EP_Quest.Components.Shared
+﻿@using Microsoft.AspNetCore.Http;
+@using EP_Quest.Components.Shared
 @inject LinkGenerator LGenerator
+@inject IHttpContextAccessor HttpContextAccessor
+@inject IConfiguration Configuration;
 
 <Preloader IsLoading="IsLoading"></Preloader>
 
 <h2 class="home-title">Your gift</h2>
-<a href="@LGenerator.GetPathByAction("Index", "Quest")"><span>Quest</span></a>
+<a class="floating-button @_buttonVisibilityStyle" href="@LGenerator.GetPathByAction("Index", "Quest")"><span>Quest</span></a>
+<input placeholder="Enter key" class="@_inputVisibilityStyle" type="text" @oninput="InputHandle" />
 
 @code {
     private bool IsLoading { get; set; } = true;
+    private string _buttonVisibilityStyle = "transparent";
+    private string _inputVisibilityStyle = "";
+    private string? _currentInputKeyValue = string.Empty;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        Init();
+
         if (firstRender)
         {
             await Task.Delay(1000);
             IsLoading = false;
             StateHasChanged();
         }
+    }
+
+    private void Init()
+    {
+        var keyPhrase = HttpContextAccessor?.HttpContext?.Request.Cookies["KeyPhrase"];
+
+        if (keyPhrase == Configuration["Phrases:Key phrase"])
+        {
+            _inputVisibilityStyle = "transparent";
+            _buttonVisibilityStyle = "fade-in";
+        }
+    }
+
+    private void InputHandle(ChangeEventArgs ev)
+    {
+        _currentInputKeyValue = ev.Value?.ToString();
+
+        if (_currentInputKeyValue == Configuration["Phrases:Key phrase"])
+        {
+            _inputVisibilityStyle = "transparent";
+            _buttonVisibilityStyle = "fade-in";
+        }
+         
+        // if (_currentInputKeyValue == Configuration["Phrases:Key phrase"])
+        // {
+        //     HttpContextAccessor?.HttpContext?.Response.Cookies.Append("KeyPhrase", "phrase");
+        // }
     }
 }
