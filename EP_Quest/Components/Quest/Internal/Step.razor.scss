@@ -1,7 +1,23 @@
 ﻿.step-container {
     height: 100%;
+    width: 100%;
     overflow: auto;
     margin: 1rem .5rem 0 0;
+
+    .some-c {
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        padding: 0 .5rem 1rem 1rem;
+    }
+
+    #image-1 {
+        max-width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        padding: 1rem;
+        padding-left: 1.5rem;
+    }
 
     .grid-wrapper {
         width: 100%;

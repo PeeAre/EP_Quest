@@ -6,20 +6,41 @@
 
 <Preloader IsLoading="IsLoading"></Preloader>
 
-<h2 class="home-title">Your gift</h2>
-<a class="floating-button @_buttonVisibilityStyle" href="@LGenerator.GetPathByAction("Index", "Quest")"><span>Quest</span></a>
-<input placeholder="Enter key" class="@_inputVisibilityStyle" type="text" @oninput="InputHandle" />
+<div class="book-container">
+    <div id="flipbook">
+        <div class="hard">
+            <h2 class="home-title">Your gift</h2>
+            @* <a class="floating-button @_buttonVisibilityStyle" href="@LGenerator.GetPathByAction("Index", "Quest")"><span>Quest</span></a> *@
+            <input disabled="@_isInputDisabled" placeholder="Enter key" class="key-input" type="text" @oninput="InputHandle" />
+        </div>
+        <div class="hard"></div>
+        <div class="page"><img id="image-1" src="images/page-1.jpg" /></div>
+        <div class="page"> Page 1 </div>
+        <div class="page"> Page 1 </div>
+        <div class="page"> Page 1 </div>
+        <div class="page"> Page 1 </div>
+        <div class="page"> Page 1 </div>
+        <div class="hard"></div>
+        <div class="hard"></div>
+    </div>
+</div>
 
 @code {
+    [Inject]
+    IJSRuntime jsRuntime { get; set; }
     private bool IsLoading { get; set; } = true;
     private string _buttonVisibilityStyle = "transparent";
-    private string _inputVisibilityStyle = "";
+    private bool _isInputDisabled { get; set; }
     private string? _currentInputKeyValue = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        Init();
+        jsRuntime.InvokeVoidAsync("bookInit");
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        Init();
-
         if (firstRender)
         {
             await Task.Delay(1000);
@@ -30,28 +51,23 @@
 
     private void Init()
     {
-        var keyPhrase = HttpContextAccessor?.HttpContext?.Request.Cookies["KeyPhrase"];
-
-        if (keyPhrase == Configuration["Phrases:Key phrase"])
-        {
-            _inputVisibilityStyle = "transparent";
-            _buttonVisibilityStyle = "fade-in";
-        }
+        
     }
 
-    private void InputHandle(ChangeEventArgs ev)
+    private async Task InputHandle(ChangeEventArgs ev)
     {
         _currentInputKeyValue = ev.Value?.ToString();
 
         if (_currentInputKeyValue == Configuration["Phrases:Key phrase"])
         {
-            _inputVisibilityStyle = "transparent";
-            _buttonVisibilityStyle = "fade-in";
+            await jsRuntime.InvokeVoidAsync("enableTurn");
+            await jsRuntime.InvokeVoidAsync("nextPage");
+            _isInputDisabled = true;
         }
-         
+
         // if (_currentInputKeyValue == Configuration["Phrases:Key phrase"])
         // {
         //     HttpContextAccessor?.HttpContext?.Response.Cookies.Append("KeyPhrase", "phrase");
         // }
     }
-}
+            }

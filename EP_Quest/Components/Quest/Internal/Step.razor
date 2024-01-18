@@ -7,7 +7,10 @@
 <div id="step-container" class="step-container">
     @if (IsInitialized)
     {
-        <div class="grid-wrapper">
+        <div class="some-c">
+            <img id="image-1" src="images/page-1.jpg"/>
+        </div>
+        @* <div class="grid-wrapper">
             <div class="first-frame @_frameVisibility[0]">
             </div>
             <div class="second-frame @_frameVisibility[2]">
@@ -15,7 +18,7 @@
             <div class="third-frame @_frameVisibility[1]">
             </div>
             <div class="instruction-scroll @_scrollVisibility" @onclick="ShowStepInstruction"></div>
-        </div>
+        </div> *@
     }
     <div id="step-info">
         <div style="padding: 1rem; @_instructionVisibility">
