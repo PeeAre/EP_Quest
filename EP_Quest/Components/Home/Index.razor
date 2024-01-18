@@ -15,8 +15,16 @@
         </div>
         <div class="hard"></div>
         <div class="page">Page 1</div>
-        <div class="page"><img id="image-2" src="images/page-1.jpg" /></div>
-        <div class="page"><img id="image-3" src="images/page-1.jpg" /></div>
+        <div class="page">
+            <div class="image-container">
+                <img id="image-2" src="images/page-1.jpg" />
+            </div>
+        </div>
+        <div class="page">
+            <div class="image-container">
+                <img id="image-3" src="images/page-1.jpg" />
+            </div>
+        </div>
         <div class="page"> Page 4 </div>
         <div class="page"> Page 5 </div>
         <div class="hard"></div>
@@ -50,7 +58,7 @@
 
     private void Init()
     {
-            StateHasChanged();
+        StateHasChanged();
     }
 
     private async Task InputHandle(ChangeEventArgs ev)
@@ -69,4 +77,4 @@
         //     HttpContextAccessor?.HttpContext?.Response.Cookies.Append("KeyPhrase", "phrase");
         // }
     }
-            }
+}

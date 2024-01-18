@@ -21,13 +21,18 @@
 }
 
 .page {
+    .image-container {
+        height: auto !important;
+        box-sizing: border-box;
+        border: 2px solid #000000;
+        margin: 1rem;
+    }
 }
 
 #image-2 {
     width: 100%;
     box-sizing: border-box;
-    padding: 1rem;
-    padding-left: 1.5rem;
+    display: block;
 }
 
 #image-3 {
@@ -36,8 +41,7 @@
     /*width: 1920px;
     height: 1500px;*/
     box-sizing: border-box;
-    padding: 1rem;
-    padding-left: 1.5rem;
+    display: block;
 }
 
 .book-container {
