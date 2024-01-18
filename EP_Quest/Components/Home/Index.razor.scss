@@ -1,37 +1,40 @@
 ﻿.home-title {
-    margin-top: -2rem;
+    margin-top: 6rem;
     font-size: 2rem;
-}
+    text-align: center;
 
-@media (max-width: 767px) {
-    .home-title {
+    @media (max-width: 767px) {
         font-size: 2.5rem;
     }
 }
 
-.floating-button {
-    margin: auto;
-    margin-top: -8rem;
-}
-
 .key-input {
-    margin: -6rem auto 0 auto;
+    margin: 0 auto;
     text-align: center;
     border-radius: 4px;
 }
 
 .page {
+    color: black;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
     .image-container {
-        height: auto !important;
-        box-sizing: border-box;
         border: 2px solid #000000;
         margin: 1rem;
+    }
+
+    .text-container {
+        width: 100%;
+        padding: 1rem;
+        box-sizing: border-box;
+        height: auto;
     }
 }
 
 #image-2 {
     width: 100%;
-    box-sizing: border-box;
     display: block;
 }
 
@@ -59,9 +62,6 @@
 
 #flipbook .page {
     background-color: white;
-    line-height: 300px;
-    font-size: 20px;
-    text-align: center;
 }
 
 #flipbook .page-wrapper {
