@@ -16,9 +16,15 @@
             <div class="hard">
                 <div class="title-container">
                     <h2 class="home-title">Journey of</h2>
-                    <h2 style="@_nameTitleVisibilityStyle" class="name-title">Beautiful Demon</h2>
+                    @if (_nameTitleVisibility != "transparent")
+                    {
+                        <h2 class="@_nameTitleVisibility name-title">Beautiful Demon</h2>
+                    }
                 </div>
-                <input style="@_inputVisibilityStyle" placeholder="Enter key" class="key-input" type="text" @oninput="InputHandle" />
+                @if (_isInputVisible)
+                {
+                    <input placeholder="Enter key" class="key-input" type="text" @oninput="InputHandle" />
+                }
             </div>
             <div class="hard">
                 <h3 class="inner-congratulation">Be like a Rose</h3>
@@ -27,7 +33,7 @@
             @foreach (var step in Steps)
             {
                 var imageId = "image-" + step.Number;
-                var imagePath = "images/pages/page1/" + step.Number + ".jpg";
+                var imagePath = "images/pages/page1/" + step.Number + ".png";
 
                 <div class="page">
                     @if (!step.IsLocked)
@@ -36,7 +42,7 @@
                             <img id=@imageId src=@imagePath />
                         </div>
                         <div class="text-container">
-                            @step.Content
+                            Не помню... 20-ого или 21-ого... хорошо бы не опоздать, вроде бы, тут для меня что-то есть :^)
                         </div>
                     }
                     else
@@ -63,8 +69,8 @@
     IJSRuntime jsRuntime { get; set; }
     private List<Step> Steps { get; set; }
     private bool IsLoading { get; set; } = true;
-    private string _nameTitleVisibilityStyle = "display: none";
-    private string _inputVisibilityStyle = "display: inline";
+    private string _nameTitleVisibility = "transparent";
+    private bool _isInputVisible = true;
     private string? _currentInputKeyValue = string.Empty;
 
     protected override async Task OnInitializedAsync()
@@ -94,12 +100,16 @@
     {
         _currentInputKeyValue = ev.Value?.ToString();
 
-        if (_currentInputKeyValue == Configuration["Phrases:Key phrase"])
+        if (_currentInputKeyValue?.ToLower() == Configuration["Phrases:Key phrase"])
         {
+            _isInputVisible = false;
+            _nameTitleVisibility = "fade-in";
+            await Task.Delay(1200);
+            _nameTitleVisibility = "";
+
             await jsRuntime.InvokeVoidAsync("enableTurn");
             await jsRuntime.InvokeVoidAsync("nextPage");
-            _nameTitleVisibilityStyle = "display: inline";
-            _inputVisibilityStyle = "display: none";
+            
         }
 
         // if (_currentInputKeyValue == Configuration["Phrases:Key phrase"])
@@ -107,12 +117,4 @@
         //     HttpContextAccessor?.HttpContext?.Response.Cookies.Append("KeyPhrase", "phrase");
         // }
     }
-
-    [JSInvokable]
-    public static void Refresh()
-    {
-        var a = 2;
-    }
-
-    
 }

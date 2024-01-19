@@ -13,7 +13,7 @@ namespace EP_Quest.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            ViewBag.Title = "Your Gift";
+            ViewBag.Title = "Your Journey";
 
             //if (!Request.Cookies.ContainsKey("KeyPhrase"))
             //    Response.Cookies.Append("KeyPhrase", _configuration["Phrases:Key phrase"]);

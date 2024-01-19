@@ -1,16 +1,37 @@
-﻿function bookInit() {
+﻿var lastPage;
+
+function bookInit() {
     $(document).ready(() => {
         $("#flipbook").turn({
-            duration: 1800,
+            duration: 1200,
             autoCenter: true
         });
         disableTurn();
+        lastPage = $("#flipbook").turn("pages");
         $('.book-container').zoom({
             flipbook: $('#flipbook'),
             duration: 1000,
-            max: 2
+            max: 1.5
         });
-        //$("#flipbook").bind("turning", zoomTo);
+        $('.book-container').bind('zoom.tap', zoomTo);
+        $("#flipbook").bind("turning", (event, page, corner) => {
+            if (page > 1) {
+                if (page === 2) {
+                    event.preventDefault();
+
+                    switch ($("#flipbook").turn("page")) {
+                        case 1:
+                            $("#flipbook").turn("page", 3);
+                            break;
+                        case 3:
+                            $("#flipbook").turn("page", 1);
+                            break;
+                    }
+                } else if (page === lastPage) {
+                    event.preventDefault();
+                }
+            }
+        });
         window.addEventListener('resize', resize);
         resize();
     });
@@ -20,49 +41,42 @@ function resize() {
     var width = $('.book-container').width();
     var height = $('.book-container').height();
 
-    if ($(window).width() < 980)
+    if ($(window).width() < 980) {
+        lastPage = $("#flipbook").turn("pages") - 1;
         $("#flipbook").turn("display", "single");
-    else
+
+    } else {
+        lastPage = $("#flipbook").turn("pages");
         $("#flipbook").turn("display", "double");
+    }
 
     $('#flipbook').turn("size", width, height);
-    $('#flipbook').turn("resize");
 }
 
 function zoomTo(event) {
     setTimeout(() => {
-        if ($('.book-container').zoom('value') === 1) {
-            zoomIn(event);
+        if ($('.book-container').data().regionClicked) {
+            $('.book-container').data().regionClicked = false;
         } else {
-            zoomOut();
+            if ($('.book-container').zoom('value') === 1) {
+                if ($("#flipbook").turn("page") === 3)
+                    zoomIn(event);
+            } else {
+                zoomOut();
+            }
         }
     }, 200);
 }
 
 function zoomIn(event) {
-    if (event.clientX)
-        $('.book-container').zoom('zoomIn', event);
-    else
-        $('.book-container').zoom('zoomIn', { x: ($('#flipbook').width()), y: 32 });
+    $('.book-container').zoom('zoomIn', event);
 }
 
 function zoomOut() {
     $('.book-container').zoom('zoomOut');
 }
 
-function resizeViewport() {
-    var width = $(window).width(),
-        height = $(window).height(),
-        options = $('#flipbook').turn('options');
-
-    $('.book-container').css({
-        width: width,
-        height: height
-    }).zoom('resize');
-}
-
 function enableTurn() {
-    //$('.book-container').bind('zoom.tap', zoomTo);
     $("#flipbook").turn("disable", false);
 }
 
@@ -72,12 +86,4 @@ function disableTurn() {
 
 function nextPage() {
     $("#flipbook").turn("next");
-}
-
-function previousPage() {
-    $("#flipbook").turn("previous");
-}
-
-function zoomBook() {
-    $("#flipbook").turn("zoom", 2);
 }

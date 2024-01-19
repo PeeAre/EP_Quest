@@ -53,7 +53,7 @@ namespace EP_Quest.Services.Common
                         Duration = new TimeSpan(24, 0, 0),
                         Name = "Step one",
                         Description = "Description of the first Step",
-                        Content = "Some text in the first page",
+                        Content = "Не помню... вроде, 20-ого или 21-ого... хорошо бы не опоздать, кажется, тут для меня что-то есть :^)",
                         IsLocked = false
                     },
                     new Step()
