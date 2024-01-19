@@ -64,20 +64,33 @@
     flex-direction: column;
 
     .image-container {
-        border: 2px solid #000000;
-        margin: 1rem;
+        margin: 1rem 1.5rem;
 
+        @media (max-width: 1024px) {
+            margin: .5rem 1rem;
+        }
 
+        @media (max-width: 620px) {
+            margin: 4rem .75rem .5rem 1rem;
+        }
     }
 
     .text-container {
         width: 100%;
-        padding: 1rem;
+        margin: .5rem 1rem 1rem 2rem;
         box-sizing: border-box;
         height: auto;
 
-        @media (max-width: 980px) {
+        @media (max-width: 1180px) {
             font-size: 1.2rem;
+        }
+
+        @media (max-width: 620px) {
+            margin-top: 1.5rem;
+        }
+
+        @media (max-width: 480px) {
+            font-size: 1rem;
         }
     }
 
@@ -85,40 +98,29 @@
         position: absolute;
         width: 100%;
         text-align: center;
-        bottom: 4px;
+        bottom: .5rem;
     }
-}
-
-#image-2 {
-    width: 100%;
-    display: block;
 }
 
 #image-1 {
     width: 100%;
-    display: block;
-}
-
-#image-3 {
-    aspect-ratio: 1.28;
-    width: 100%;
-    /*width: 1920px;
-    height: 1500px;*/
-    box-sizing: border-box;
-    display: block;
 }
 
 .book-container {
     position: relative;
     width: 100%;
-    padding: 1rem 8rem;
+    padding: 1rem 2rem;
     box-sizing: border-box;
 
     @media (max-width: 1240px) {
         padding: 2rem 2rem;
     }
 
-    @media (max-width: 980px) {
+    @media (max-width: 1024px) {
+        padding: 2rem .5rem;
+    }
+
+    @media (max-width: 979px) {
         padding: 2rem 8rem;
     }
 
@@ -126,15 +128,11 @@
         padding: 2rem 4rem;
     }
 
-    @media (max-width: 720px) {
+    @media (max-width: 760px) {
         padding: 1rem 2rem;
     }
 
-    @media (max-width: 640px) {
-        padding: .5rem 1rem;
-    }
-
-    @media (max-width: 560px) {
+    @media (max-width: 680px) {
         padding: 0;
     }
 }
@@ -167,12 +165,12 @@
 }
 
 #flipbook .odd {
-    background: -webkit-gradient(linear, right top, left top, color-stop(0.97, #FFF), color-stop(1, #DADADA));
-    background-image: -webkit-linear-gradient(right, #FFF 97%, #C4C4C4 100%);
-    background-image: -moz-linear-gradient(right, #FFF 97%, #C4C4C4 100%);
-    background-image: -ms-linear-gradient(right, #FFF 97%, #C4C4C4 100%);
-    background-image: -o-linear-gradient(right, #FFF 97%, #C4C4C4 100%);
-    background-image: linear-gradient(right, #FFF 97%, #C4C4C4 100%);
+    background: -webkit-gradient(linear, right top, left top, color-stop(0.95, #FFF), color-stop(1, #DADADA));
+    background-image: -webkit-linear-gradient(right, #FFF 95%, #C4C4C4 100%);
+    background-image: -moz-linear-gradient(right, #FFF 95%, #C4C4C4 100%);
+    background-image: -ms-linear-gradient(right, #FFF 95%, #C4C4C4 100%);
+    background-image: -o-linear-gradient(right, #FFF 95%, #C4C4C4 100%);
+    background-image: linear-gradient(right, #FFF 95%, #C4C4C4 100%);
     -webkit-box-shadow: inset 0 0 8px #666;
     -moz-box-shadow: inset 0 0 8px #666;
     -o-box-shadow: inset 0 0 8px #666;
@@ -181,12 +179,12 @@
 }
 
 #flipbook .even {
-    background: -webkit-gradient(linear, left top, right top, color-stop(0.95, #fff), color-stop(1, #dadada));
-    background-image: -webkit-linear-gradient(left, #fff 95%, #dadada 100%);
-    background-image: -moz-linear-gradient(left, #fff 95%, #dadada 100%);
-    background-image: -ms-linear-gradient(left, #fff 95%, #dadada 100%);
-    background-image: -o-linear-gradient(left, #fff 95%, #dadada 100%);
-    background-image: linear-gradient(left, #fff 95%, #dadada 100%);
+    background: -webkit-gradient(linear, left top, right top, color-stop(0.98, #fff), color-stop(1, #dadada));
+    background-image: -webkit-linear-gradient(left, #fff 98%, #dadada 100%);
+    background-image: -moz-linear-gradient(left, #fff 98%, #dadada 100%);
+    background-image: -ms-linear-gradient(left, #fff 98%, #dadada 100%);
+    background-image: -o-linear-gradient(left, #fff 98%, #dadada 100%);
+    background-image: linear-gradient(left, #fff 98%, #dadada 100%);
     -webkit-box-shadow: inset 0 0 5px #666;
     -moz-box-shadow: inset 0 0 5px #666;
     -o-box-shadow: inset 0 0 5px #666;
