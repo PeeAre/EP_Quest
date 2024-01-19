@@ -59,7 +59,7 @@ function zoomTo(event) {
             $('.book-container').data().regionClicked = false;
         } else {
             if ($('.book-container').zoom('value') === 1) {
-                if ($("#flipbook").turn("page") === 3)
+                if ($("#flipbook").turn("page") === 2 || $("#flipbook").turn("page") === 2)
                     zoomIn(event);
             } else {
                 zoomOut();
