@@ -53,7 +53,7 @@ namespace EP_Quest.Services.Common
                         Duration = new TimeSpan(24, 0, 0),
                         Name = "Step one",
                         Description = "Description of the first Step",
-                        Content = "Content of the first Step",
+                        Content = "Some text in the first page",
                         IsLocked = false
                     },
                     new Step()
@@ -87,6 +87,14 @@ namespace EP_Quest.Services.Common
                         Number = 5,
                         Description = "Description of the fifth Step",
                         Content = "Content of the fifth Step"
+                    },
+                    new Step()
+                    {
+                        Name = "Step six",
+                        Duration = new TimeSpan(24, 0, 0),
+                        Number = 6,
+                        Description = "Description of the sixth Step",
+                        Content = "Content of the sixth Step"
                     });
             }
             dbContext.SaveChanges();
