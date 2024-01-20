@@ -12,5 +12,9 @@ namespace EP_Quest.Services
         {
             services.AddSingleton<NotificationService>();
         }
+        public static void AddSendersService(this IServiceCollection services)
+        {
+            services.AddTransient<TelegramSender>();
+        }
     }
 }

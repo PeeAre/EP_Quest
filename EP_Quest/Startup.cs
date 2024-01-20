@@ -19,6 +19,8 @@ namespace EP_Quest
             services.AddRazorPages().AddRazorRuntimeCompilation();
             services.AddServerSideBlazor();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            services.AddCors();
+            services.AddSendersService();
             services.AddHttpContextAccessor();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddDbContext<QuestDbContext>(options =>
@@ -56,6 +58,9 @@ namespace EP_Quest
                 ServeUnknownFileTypes = true
             });
             app.UseHttpsRedirection();
+            app.UseCors(corsPolicyBuilder => corsPolicyBuilder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapBlazorHub();
