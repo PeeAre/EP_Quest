@@ -21,5 +21,5 @@ RUN dotnet publish "./EP_Quest.csproj" -c $BUILD_CONFIGURATION -o /app/publish /
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-COPY ./Certificates/certificate.pfx ./
+COPY Certificates/certificate.pfx ./
 ENTRYPOINT ["dotnet", "EP_Quest.dll"]
