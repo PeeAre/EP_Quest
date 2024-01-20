@@ -147,11 +147,6 @@
     padding: 5rem 1rem;
   }
 }
-@media (max-width: 380px) {
-  .book-container {
-    padding: 0;
-  }
-}
 
 #flipbook {
   width: 100%;

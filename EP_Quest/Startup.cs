@@ -1,6 +1,7 @@
 ﻿using EP_Quest.Models;
 using EP_Quest.Services;
 using EP_Quest.Services.Common;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -32,6 +33,13 @@ namespace EP_Quest
                     outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
                 .CreateLogger();
             services.AddLogging();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.Cookie.HttpOnly = true;
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+                    options.SlidingExpiration = true;
+                });
             services.AddTransient<IQuestRepository, QuestRepository>();
             services.AddDatabaseService();
             services.AddNotificationService();
@@ -58,6 +66,7 @@ namespace EP_Quest
                 ServeUnknownFileTypes = true
             });
             app.UseHttpsRedirection();
+            app.UseAuthentication();
             app.UseCors(corsPolicyBuilder => corsPolicyBuilder.AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader());

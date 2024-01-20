@@ -74,6 +74,7 @@
     private string _nameTitleVisibility = "transparent";
     private bool _isInputVisible = true;
     private string? _currentInputKeyValue = string.Empty;
+    private bool? IsUserAuthenticated { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -87,6 +88,15 @@
         {
             await Task.Delay(1000);
             IsLoading = false;
+            IsUserAuthenticated = HttpContextAccessor?.HttpContext?.Request.Cookies.ContainsKey("KeyPhrase");
+
+            if (IsUserAuthenticated != null && (bool)IsUserAuthenticated)
+            {
+                _isInputVisible = false;
+                _nameTitleVisibility = "";
+                await Authorize();
+            }
+
             await InvokeAsync(StateHasChanged);
         }
     }
@@ -109,14 +119,15 @@
             await Task.Delay(1200);
             _nameTitleVisibility = "";
 
-            await TelegramSender.SendAsync("Someone came");
-            await jsRuntime.InvokeVoidAsync("enableTurn");
+            await Authorize();
             await jsRuntime.InvokeVoidAsync("nextPage");
         }
+    }
 
-        // if (_currentInputKeyValue == Configuration["Phrases:Key phrase"])
-        // {
-        //     HttpContextAccessor?.HttpContext?.Response.Cookies.Append("KeyPhrase", "phrase");
-        // }
+    private async Task Authorize()
+    {
+        jsRuntime.InvokeVoidAsync("setCookie", "KeyPhrase", Configuration["Phrases:Key phrase"], 1);
+        await TelegramSender.SendAsync("Someone came");
+        await jsRuntime.InvokeVoidAsync("enableTurn");
     }
 }
