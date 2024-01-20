@@ -1,11 +1,13 @@
 ﻿@using Microsoft.AspNetCore.Http;
 @using EP_Quest.Components.Shared
 @using EP_Quest.Models
+@using EP_Quest.Services.Common
 @using Microsoft.EntityFrameworkCore
 @inject LinkGenerator LGenerator
 @inject IHttpContextAccessor HttpContextAccessor
 @inject IConfiguration Configuration;
 @inject IQuestRepository Repository
+@inject TelegramSender TelegramSender
 
 <Preloader IsLoading="IsLoading"></Preloader>
 
@@ -107,9 +109,9 @@
             await Task.Delay(1200);
             _nameTitleVisibility = "";
 
+            await TelegramSender.SendAsync("Someone came");
             await jsRuntime.InvokeVoidAsync("enableTurn");
             await jsRuntime.InvokeVoidAsync("nextPage");
-            
         }
 
         // if (_currentInputKeyValue == Configuration["Phrases:Key phrase"])
